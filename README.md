@@ -13,4 +13,4 @@ These will include at least the following features:
 
 All methods will be implemented in Python and merged in the dingo library.
 
-![Network Reduction Concept](/img/.png)
+![Network Reduction Concept](/img/reduction.png)
