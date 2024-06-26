@@ -13,4 +13,4 @@ These will include at least the following features:
 
 All methods will be implemented in Python and merged in the dingo library.
 
-The contributor will also run experiments with several metabolic networks to investigate the scaling of their findings.
+![Network Reduction Concept](/img/.png)
