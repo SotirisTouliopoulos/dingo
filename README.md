@@ -44,7 +44,7 @@ Explaining the parameters and the returned objects:
   These reactions are the ones that do not affect the value of the objective function, when removed.
 
 Reduction with the `PreProcess` class has been tested in some models, appearing in dingo's publication. 
-A figure with the results follows, which presents the number of remained reactions, after calling the `reduce` function with `extend` set to `True` and `False`.
+A figure with the results follows, which presents the number of remained reactions, after calling the `reduce` function with `extend` set both to `False` and `True`.
 
 ![Reduction_Results_Plot](/img/reduction_results_plot.png)
 
