@@ -93,5 +93,12 @@ Explaining the parameters:
 
 First we will examine the capabilities of the `correlated_reactions` function from the produced heatmap plots in the E. coli core model.
 
+A heatmap from a symmetrical correlation matrix with `pearson_cutoff = 0.8` and without indicator filtering
+![core_no_filter_corr_matrix](/img/core_no_filter_corr_matrix.png)
 
+A heatmap from a triangular correlation matrix with `pearson_cutoff = 0.8` and without indicator filtering
+![core_no_filter_triangle_corr_matrix](/img/core_no_filter_triangle_corr_matrix.png)
+
+A heatmap from a symmetrical correlation matrix with `pearson cutoff = 0.8` and with `indicator_cutoff = 2`
+![core_filter_corr_matrix](/img/core_filter_corr_matrix.png)
 
