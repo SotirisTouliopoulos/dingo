@@ -43,7 +43,7 @@ Explaining the parameters and the returned objects:
 - Users can decide if they want to remove an additional set of reactions, by setting the `extend` parameter to `True`.
   These reactions are the ones that do not affect the value of the objective function, when removed.
 
-Reduction with the `PreProcess` class has been tested in some models, appearing in dingo's publication. 
+Reduction with the `PreProcess` class has been tested with the E. coli core and with other models used in dingo's publication article. 
 A figure with results follows, which presents the number of remained reactions, after calling the `reduce` function with `extend` set both to `False` and `True`.
 Reduction with `extend` set to `True` is based on sampling, so a slight change in the number of remained reactions may appear from time to time. 
 It is recommended to use `extend` set to `False` in large models, due to the higher computational time.
@@ -78,4 +78,20 @@ Explaining the parameters and the returned objects:
 - `indicator_cutoff` is a cutoff to filter false positive correlations for correlations greater than the cutoff and replace them with 0.
 - `lower_triangle` is a `boolean` value that when `True` keeps only the lower triangular matrix. This can be useful for visualization purposes.
 - `corr_matrix` is the calculated correlation matrix with dimensions equal to the number of reactions of the given model.
+
+I also implemented a `plot_corr_matrix` function that visualizes the correlation matrix given as an input with a heatmap plot. In reduced models, there is an option to plot only the remained reactions names, if they are provided in a list.
+
+Example of calling the `plot_corr_matrix` function:
+
+    plot_corr_matrix(corr_matrix, reactions, format="svg")
+
+Explaining the parameters:
+
+- `corr_matrix` is a correlation matrix produced from the `correlated_reactions` function.
+- `reactions` is a list with the reactions names that will appear as labels in the axes of the heatmap plot.
+- `format` is a variable that defines the desired image saving format.
+
+First we will examine the capabilities of the `correlated_reactions` function from the produced heatmap plots in the E. coli core model.
+
+
 
