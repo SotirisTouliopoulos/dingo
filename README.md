@@ -66,9 +66,11 @@ Example of calling the `correlated_reactions` function to the E.coli core model:
 
     sampler = PolytopeSampler(dingo_model)
     steady_states = sampler.generate_steady_states()
-    corr_matrix = correlated_reactions(steady_states, 
-                                       indicator_cutoff=2,
+    corr_matrix = correlated_reactions(steady_states,
                                        pearson_cutoff = 0.99,
+                                       indicator_cutoff=2,
+                                       cells = 10,
+                                       cop_coeff = 0.3,
                                        lower_triangle = False)
 
 Explaining the parameters and the returned objects:
@@ -76,6 +78,8 @@ Explaining the parameters and the returned objects:
 - `steady_states` are the steady states returned from dingo's `generate_steady_states` function.
 - `pearson_cutoff` is a cutoff to replace all lower values with 0.
 - `indicator_cutoff` is a cutoff to filter false positive correlations for correlations greater than the cutoff and replace them with 0.
+- `cells` is a variable that defines the number of cells in the computed copulas
+- `cop_coeff` is a variable that defines the width of copula's diagonal.
 - `lower_triangle` is a `boolean` value that when `True` keeps only the lower triangular matrix. This can be useful for visualization purposes.
 - `corr_matrix` is the calculated correlation matrix with dimensions equal to the number of reactions of the given model.
 
@@ -93,20 +97,21 @@ Explaining the parameters:
 
 First we will examine the capabilities of the `correlated_reactions` function from the produced heatmap plots in the E. coli core model.
 
-A heatmap from a symmetrical correlation matrix with `pearson_cutoff = 0.8` and without indicator filtering
+A heatmap from a symmetrical correlation matrix with `pearson_cutoff = 0.8` and without indicator filtering:
 ![core_no_filter_corr_matrix](/img/core_no_filter_corr_matrix.png)
 
-A heatmap from a triangular correlation matrix with `pearson_cutoff = 0.8` and without indicator filtering
+A heatmap from a triangular correlation matrix with `pearson_cutoff = 0.8` and without indicator filtering:
 ![core_no_filter_triangle_corr_matrix](/img/core_no_filter_triangle_corr_matrix.png)
 
-A heatmap from a symmetrical correlation matrix with `pearson cutoff = 0.8` and with `indicator_cutoff = 2`
+A heatmap from a symmetrical correlation matrix with `pearson cutoff = 0.8` and with `indicator_cutoff = 2`:
 ![core_filter_corr_matrix](/img/core_filter_corr_matrix.png)
 
 Now we will examine heatmap plots from reduced E. coli core models.
 
-A heatmap from a symmetrical correlation matrix with no cutoffs, from a reduced E. coli core model with `extend` set to `False`
+A heatmap from a symmetrical correlation matrix with no cutoffs, from a reduced E. coli core model with `extend` set to `False`:
 ![core_reduced_corr_matrix](/img/core_reduced_corr_matrix.png)
 
-A heatmap from a symmetrical correlation matrix with no cutoffs, from a reduced E. coli core model with `extend` set to `True`
+A heatmap from a symmetrical correlation matrix with no cutoffs, from a reduced E. coli core model with `extend` set to `True`:
 ![core_reduced_extend_corr_matrix.png](/img/core_reduced_extend_corr_matrix.png)
 
+We can see that the additional reaction removed with `extend` set to `True` is `FRD7` which is the least correlated one across the matrix.
