@@ -102,3 +102,11 @@ A heatmap from a triangular correlation matrix with `pearson_cutoff = 0.8` and w
 A heatmap from a symmetrical correlation matrix with `pearson cutoff = 0.8` and with `indicator_cutoff = 2`
 ![core_filter_corr_matrix](/img/core_filter_corr_matrix.png)
 
+Now we will examine the capabilities of the `correlated_reactions` function from the produced heatmap plots in reduced E. coli core models.
+
+A heatmap from a symmetrical correlation matrix with no cutoffs, from a reduced E. coli core model with `extend` set to `False`
+![core_reduced_corr_matrix](/img/core_reduced_corr_matrix.png)
+
+A heatmap from a symmetrical correlation matrix with no cutoffs, from a reduced E. coli core model with `extend` set to `True`
+![core_reduced_extend_corr_matrix.png](/img/core_reduced_extend_corr_matrix.png.png)
+
