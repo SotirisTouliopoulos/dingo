@@ -115,3 +115,7 @@ A heatmap from a symmetrical correlation matrix with no cutoffs, from a reduced 
 ![core_reduced_extend_corr_matrix.png](/img/core_reduced_extend_corr_matrix.png)
 
 We can see that the additional reaction removed with `extend` set to `True` is `FRD7` which is the least correlated one across the matrix.
+`FRD7` is a fumarate reductase, which in the E. coli core model appears in a loop with `SUCDi`, as seen in the following figure obtained from `ESCHER`:
+![escher_frd7.png](/img/escher_frd7.png)
+
+
