@@ -97,22 +97,25 @@ Explaining the parameters:
 
 First we will examine the capabilities of the `correlated_reactions` function from the produced heatmap plots in the E. coli core model.
 
-A heatmap from a symmetrical correlation matrix with `pearson_cutoff = 0.8` and without indicator filtering:
-![core_no_filter_corr_matrix](/img/core_no_filter_corr_matrix.png)
+A heatmap from a symmetrical correlation matrix without pearson and indicator filtering:
+![corr_matrix_no_cutoffs](/img/corr_matrix_no_cutoffs.png)
 
-A heatmap from a triangular correlation matrix with `pearson_cutoff = 0.8` and without indicator filtering:
-![core_no_filter_triangle_corr_matrix](/img/core_no_filter_triangle_corr_matrix.png)
+A heatmap from a symmetrical correlation matrix with `pearson_cutoff = 0.7` and without indicator filtering:
+![corr_matrix_pearson](/img/corr_matrix_pearson.png)
 
-A heatmap from a symmetrical correlation matrix with `pearson cutoff = 0.8` and with `indicator_cutoff = 2`:
-![core_filter_corr_matrix](/img/core_filter_corr_matrix.png)
+A heatmap from a symmetrical correlation matrix with `pearson_cutoff = 0.7` and with `indicator_cutoff = 100`:
+![corr_matrix_pearson_indicator](/img/corr_matrix_pearson_indicator.png)
+
+A heatmap from a triangular correlation matrix with `pearson_cutoff = 0.7` and with `indicator_filtering = 100`:
+![corr_matrix_pearson_indicator_triangle](/img/corr_matrix_pearson_indicator_triangle.png)
 
 Now we will examine heatmap plots from reduced E. coli core models.
 
-A heatmap from a symmetrical correlation matrix with no cutoffs, from a reduced E. coli core model with `extend` set to `False`:
-![core_reduced_corr_matrix](/img/core_reduced_corr_matrix.png)
+A heatmap from a symmetrical correlation matrix with `pearson_cutoff = 0.7` and with `indicator_filtering = 100`, from a reduced E. coli core model with `extend` set to `False`:
+![corr_matrix_extend_false](/img/corr_matrix_extend_false.png)
 
-A heatmap from a symmetrical correlation matrix with no cutoffs, from a reduced E. coli core model with `extend` set to `True`:
-![core_reduced_extend_corr_matrix.png](/img/core_reduced_extend_corr_matrix.png)
+A heatmap from a symmetrical correlation matrix with `pearson_cutoff = 0.7` and with `indicator_filtering = 100`, from a reduced E. coli core model with `extend` set to `True`:
+![corr_matrix_extend_true.png](/img/corr_matrix_extend_true.png)
 
 We can see that the additional reaction removed with `extend` set to `True` is `FRD7` which is the least correlated one across the matrix.
 `FRD7` is a fumarate reductase, which in the E. coli core model appears in a loop with `SUCDi`, as seen in the following figure obtained from `ESCHER`:
