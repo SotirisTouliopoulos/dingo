@@ -123,7 +123,55 @@ We can see that the additional reaction removed with `extend` set to `True` is `
 ![escher_frd7.png](/img/escher_frd7.png)
 
 
+## Clustering and Graphs creation
+
+- Clustering based on a dissimilarity matrix, reveals group of reactions with similar values
+- Reactions that belong to the same cluster might contribute to same pathway.
+- Graph creation based on outlier clusters might reveal reaction networks.
+
+I implemented a `cluster_corr_reactions` function that takes an input a correlation matrix and calculates a dissimilarity matrix.
+This done by substracting each value from 1. Thus, positive correlations correspond to distances between 0 and 1 and negative correlations to distances between 1 and 2.
+
+Example of calling the `cluster_corr_reactions` function:
+
+    dissimilarity_matrix, labels, clusters = cluster_corr_reactions(corr_matrix,
+                                             reactions=reactions,
+                                             method="hierarchical",
+                                             linkage="ward",
+                                             t = 10.0)
+
+Explaining the parameters and the returned objects:
+
+- `corr_matrix` is a correlation matrix produced from the `correlated_reactions` function.
+- `reactions` is a list with the reactions names.
+- `method` is a variable that defines the clustering method. `hierarchical`, `kmeans`, `hdbscan` are available methods.
+- `likage` is used only in `hierarchical` clustering. It defines the type of linkage. `single`, `average`, `complete`, `ward` are available linkage types.
+- `t` defines a height threshold to cut the dendrogram and return clusters.
+- `n_clusters` is used only in `kmeans` clustering. It defines the number of clusters.
+- `min_cluster_size` is used only in `hdbscan` clustering. It defines the minimum number of points that can create a cluster.
+- `dissimilarity_matrix` is returned only when using the `hierarchical` method. It is the distance matrix created from the correlation matrix.
+- `labels` are cluster labels.
+- `clusters` is a nested list, containing sublists with reactions that belong to the same cluster.
+
+I also implemented a `plot_dendrogram` function, that plots a dendrogram given a dissimilarity matrix created from the `cluster_corr_reactions` function.
+
+Example of calling the `plot_dendrogram` function:
+
+    plot_dendrogram(dissimilarity_matrix, reactions , plot_labels=True, t=10.0, linkage="ward")
+
+Explaining the parameters:
+
+- `dissimilarity_matrix` is a distance matrix created from the `cluster_corr_reactions` function.
+- `reactions` is a list with the reactions names.
+- `plot_labels` is a variable that defines, whether the reaction names will appear in the x-axis.
+- `t` defines a height threshold to cut the dendrogram and color the created clusters accordingly.
+- `linkage` defines the type of linkage. `single`, `average`, `complete`, `ward` are available linkage types.
+
+First we will examine a dendrogram created from the `plot_dendrogram` function from a correlation matrix with no cutoffs, in the E. coli core model.
 ![dendrogram_no_cutoffs.png](/img/dendrogram_no_cutoffs.png)
+
+
+
 ![graph_both_no_cutoffs.png](/img/graph_both_no_cutoffs.png)
 
 ![graph_negative_pearson.png](/img/graph_negative_no_cutoffs.png)
