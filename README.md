@@ -123,11 +123,10 @@ We can see that the additional reaction removed with `extend` set to `True` is `
 ![escher_frd7.png](/img/escher_frd7.png)
 
 
-## Clustering and Graphs creation
+## Clustering
 
 - Clustering based on a dissimilarity matrix, reveals group of reactions with similar values
 - Reactions that belong to the same cluster might contribute to same pathway.
-- Graph creation based on outlier clusters might reveal reaction networks.
 
 I implemented a `cluster_corr_reactions` function that takes an input a correlation matrix and calculates a dissimilarity matrix.
 This done by substracting each value from 1. Thus, positive correlations correspond to distances between 0 and 1 and negative correlations to distances between 1 and 2.
@@ -167,19 +166,60 @@ Explaining the parameters:
 - `t` defines a height threshold to cut the dendrogram and color the created clusters accordingly.
 - `linkage` defines the type of linkage. `single`, `average`, `complete`, `ward` are available linkage types.
 
-First we will examine a dendrogram created from the `plot_dendrogram` function from a correlation matrix with no cutoffs, in the E. coli core model.
+This is a dendrogram created from the `plot_dendrogram` function from a correlation matrix of the E. coli core model with no cutoffs:
 ![dendrogram_no_cutoffs.png](/img/dendrogram_no_cutoffs.png)
 
+This is a dendrogram from the same correlation matrix but with `pearson_cutoff = 0.99`:
+![dendrogram_pearson.png](/img/dendrogram_pearson.png)
+
+Far distinct clusters are observed. Graphs will reveal if these clusters interact with other clusters or reaction.
 
 
+## Graphs
+
+- Graph creation based on outlier clusters might reveal possible reaction networks.
+- These networks can be filtered to positive or negative correlations networks.
+
+I implemented a `graph_corr_matrix` function that takes as input a correlation matrix and creates network graphs from it.
+
+Example of calling the `graph_corr_matrix` function:
+
+    graphs, layouts = graph_corr_matrix(corr_matrix, reactions, filter="both", clusters=clusters)
+
+Explaining the parameters and the returned objects:
+
+- `corr_matrix` is a correlation matrix produced from the `correlated_reactions` function.
+- `reactions` is a list with the reactions names, that will appear as nodes in the graphs.
+- `filters` is a variable that defines the type of networks we want to create.
+  `positive` removes negative correlations, `negative` removes positive correlations, while `both` maintains both correlation types. 
+- `clusters` is a nested list, containing sublists with reactions that belong to the same cluster, created from the `cluster_corr_reactions` function.
+- `graphs` is a list containing created graph objects.
+- `layouts` is a list containing layouts from the corresponding graphs.
+
+I also implemented a `plot_graph` function, that takes as input a graph object with its corresponding layout and plots the resulting graph.
+
+Example of calling the `plot_graph` function:
+
+    plot_graph(graph, layout)
+
+Explaining the parameters:
+
+- `graph` is a graph object returned from the `graph_corr_matrix` function.
+- `layout` is a layout that corresponds to the given graph object, also created from the `graph_corr_matrix` function.
+
+This is a graph with `filters = both` created from the `plot_graph` function from a correlation matrix of the E. coli core model without `pearson_cutoff`:
 ![graph_both_no_cutoffs.png](/img/graph_both_no_cutoffs.png)
 
+This is a graph with `filters = negative` from the same correlation matrix:
 ![graph_negative_pearson.png](/img/graph_negative_no_cutoffs.png)
+
+This is a graph with `filters = positive` from the same correlation matrix:
 ![graph_positive_pearson.png](/img/graph_positive_no_cutoffs.png)
 
-![dendrogram_pearson.png](/img/dendrogram_pearson.png)
+This is a graph with `filters = both` from the correlation matrix with `pearson_cutoff = 0.99`:
 ![graph_both_pearson.png](/img/graph_both_pearson.png)
 
+This is a subgraph with `filters = both` from the correlation matrix with `pearson_cutoff = 0.99`:
 ![subgraph_both_pearson.png](/img/subgraph_both_pearson.png)
 
 
