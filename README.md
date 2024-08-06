@@ -128,8 +128,8 @@ We can see that the additional reaction removed with `extend` set to `True` is `
 - Clustering based on a dissimilarity matrix, reveals group of reactions with similar values
 - Reactions that belong to the same cluster might contribute to same pathway.
 
-I implemented a `cluster_corr_reactions` function that takes an input a correlation matrix and calculates a dissimilarity matrix.
-This done by substracting each value from 1. Thus, positive correlations correspond to distances between 0 and 1 and negative correlations to distances between 1 and 2.
+I implemented a `cluster_corr_reactions` function that takes as input a correlation matrix and calculates a dissimilarity matrix.
+This done by substracting each correlation value from 1. Thus, positive correlations correspond to distances between 0 and 1 and negative correlations to distances between 1 and 2.
 
 Example of calling the `cluster_corr_reactions` function:
 
@@ -149,7 +149,7 @@ Explaining the parameters and the returned objects:
 - `n_clusters` is used only in `kmeans` clustering. It defines the number of clusters.
 - `min_cluster_size` is used only in `hdbscan` clustering. It defines the minimum number of points that can create a cluster.
 - `dissimilarity_matrix` is returned only when using the `hierarchical` method. It is the distance matrix created from the correlation matrix.
-- `labels` are cluster labels.
+- `labels` are index labels that correspond to a specific cluster.
 - `clusters` is a nested list, containing sublists with reactions that belong to the same cluster.
 
 I also implemented a `plot_dendrogram` function, that plots a dendrogram given a dissimilarity matrix created from the `cluster_corr_reactions` function.
@@ -163,24 +163,27 @@ Explaining the parameters:
 - `dissimilarity_matrix` is a distance matrix created from the `cluster_corr_reactions` function.
 - `reactions` is a list with the reactions names.
 - `plot_labels` is a variable that defines, whether the reaction names will appear in the x-axis.
-- `t` defines a height threshold to cut the dendrogram and color the created clusters accordingly.
-- `linkage` defines the type of linkage. `single`, `average`, `complete`, `ward` are available linkage types.
+- `t` defines a threshold that cuts the dendrogram at a specific height and colors the occuring clusters accordingly.
+- `linkage` defines the type of linkage. Available linkage types are: `single`, `average`, `complete`, `ward`.
 
-This is a dendrogram created from the `plot_dendrogram` function from a correlation matrix of the E. coli core model with no cutoffs:
+All the dendrograms and graphs in this page are created from correlation matrices of the E. coli core model.
+
+This is a dendrogram created from the `plot_dendrogram` function from a correlation matrix without pearson filtering:
 ![dendrogram_no_cutoffs.png](/img/dendrogram_no_cutoffs.png)
 
-This is a dendrogram from the same correlation matrix but with `pearson_cutoff = 0.99`:
+This is a dendrogram from the same correlation matrix with `pearson_cutoff = 0.99`:
 ![dendrogram_pearson.png](/img/dendrogram_pearson.png)
 
-Far distinct clusters are observed. Graphs will reveal if these clusters interact with other clusters or reaction.
+Far distinct clusters are observed. Graphs will reveal if these clusters interact with other clusters or reactions.
 
 
 ## Graphs
 
 - Graph creation based on outlier clusters might reveal possible reaction networks.
-- These networks can be filtered to positive or negative correlations networks.
+- These networks can be filtered to subnetworks with only positive or negative correlations.
 
-I implemented a `graph_corr_matrix` function that takes as input a correlation matrix and creates network graphs from it.
+I implemented a `graph_corr_matrix` function that takes as input a correlation matrix and creates network graphs from it. 
+Except from the initial graph, this function splits the graph into subgraphs. If the nodes from a subgraph appear in distinct clusters, then the subgraph and its layout are returned.
 
 Example of calling the `graph_corr_matrix` function:
 
@@ -194,7 +197,7 @@ Explaining the parameters and the returned objects:
   `positive` removes negative correlations, `negative` removes positive correlations, while `both` maintains both correlation types. 
 - `clusters` is a nested list, containing sublists with reactions that belong to the same cluster, created from the `cluster_corr_reactions` function.
 - `graphs` is a list containing created graph objects.
-- `layouts` is a list containing layouts from the corresponding graphs.
+- `layouts` is a list containing graphs' layouts. Each layout has the same index with its corresponding graph from `graphs` list.
 
 I also implemented a `plot_graph` function, that takes as input a graph object with its corresponding layout and plots the resulting graph.
 
@@ -207,7 +210,7 @@ Explaining the parameters:
 - `graph` is a graph object returned from the `graph_corr_matrix` function.
 - `layout` is a layout that corresponds to the given graph object, also created from the `graph_corr_matrix` function.
 
-This is a graph with `filters = both` created from the `plot_graph` function from a correlation matrix of the E. coli core model without `pearson_cutoff`:
+This is a graph with `filters = both` created from the `plot_graph` function from a correlation matrix without pearson filtering:
 ![graph_both_no_cutoffs.png](/img/graph_both_no_cutoffs.png)
 
 This is a graph with `filters = negative` from the same correlation matrix:
@@ -216,11 +219,9 @@ This is a graph with `filters = negative` from the same correlation matrix:
 This is a graph with `filters = positive` from the same correlation matrix:
 ![graph_positive_pearson.png](/img/graph_positive_no_cutoffs.png)
 
-This is a graph with `filters = both` from the correlation matrix with `pearson_cutoff = 0.99`:
+This is a graph with `filters = both` from a correlation matrix with `pearson_cutoff = 0.99`:
 ![graph_both_pearson.png](/img/graph_both_pearson.png)
 
-This is a subgraph with `filters = both` from the correlation matrix with `pearson_cutoff = 0.99`:
+This is a subgraph with `filters = both` from a correlation matrix with `pearson_cutoff = 0.99`:
 ![subgraph_both_pearson.png](/img/subgraph_both_pearson.png)
-
-
 
