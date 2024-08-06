@@ -124,10 +124,13 @@ We can see that the additional reaction removed with `extend` set to `True` is `
 
 ![dendrogram_no_cutoffs.png](/img/dendrogram_no_cutoffs.png)
 ![graph_both_no_cutoffs.png](/img/graph_both_no_cutoffs.png)
+
+![graph_negative_pearson.png](/img/graph_negative_no_cutoffs.png)
+![graph_positive_pearson.png](/img/graph_positive_no_cutoffs.png)
+
 ![dendrogram_pearson.png](/img/dendrogram_pearson.png)
 ![graph_both_pearson.png](/img/graph_both_pearson.png)
-![graph_negative_pearson.png](/img/graph_negative_pearson.png)
-![graph_positive_pearson.png](/img/graph_positive_pearson.png)
+
 ![subgraph_both_pearson.png](/img/subgraph_both_pearson.png)
 
 
