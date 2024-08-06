@@ -43,7 +43,7 @@ Explaining the parameters and the returned objects:
 - Users can decide if they want to remove an additional set of reactions, by setting the `extend` parameter to `True`.
   These reactions are the ones that do not affect the value of the objective function, when removed.
 
-Reduction with the `PreProcess` class has been tested with the E. coli core and with other models used in dingo's publication article. 
+Reduction with the `PreProcess` class has been tested with various models. Some of them are used in dingo's publication article too. 
 A figure with results follows, which presents the number of remained reactions, after calling the `reduce` function with `extend` set both to `False` and `True`.
 Reduction with `extend` set to `True` is based on sampling, so a slight change in the number of remained reactions may appear from time to time. 
 It is recommended to use `extend` set to `False` in large models, due to the higher computational time.
