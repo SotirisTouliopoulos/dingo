@@ -49,6 +49,7 @@ Reduction with `extend` set to `True` is based on sampling, so a slight change i
 It is recommended to use `extend` set to `False` in large models, due to the higher computational time.
 
 ![Reduction_Results_Plot](/img/reduction_results_plot.png)
+![Reduction_Results_Plot2](/img/reduction_results_plot2.png)
 
 
 ## Correlated reactions
