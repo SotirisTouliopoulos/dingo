@@ -68,11 +68,11 @@ Example of calling the `correlated_reactions` function to the E.coli core model:
     sampler = PolytopeSampler(dingo_model)
     steady_states = sampler.generate_steady_states()
     corr_matrix, indicator_dict = correlated_reactions(steady_states,
-                                       pearson_cutoff = 0.99,
-                                       indicator_cutoff=2,
-                                       cells = 10,
-                                       cop_coeff = 0.3,
-                                       lower_triangle = False)
+                                  pearson_cutoff = 0.99,
+                                  indicator_cutoff=2,
+                                  cells = 10,
+                                  cop_coeff = 0.3,
+                                  lower_triangle = False)
 
 Explaining the parameters and the returned objects:
 
