@@ -67,7 +67,7 @@ Example of calling the `correlated_reactions` function to the E.coli core model:
 
     sampler = PolytopeSampler(dingo_model)
     steady_states = sampler.generate_steady_states()
-    corr_matrix = correlated_reactions(steady_states,
+    corr_matrix, indicator_dict = correlated_reactions(steady_states,
                                        pearson_cutoff = 0.99,
                                        indicator_cutoff=2,
                                        cells = 10,
@@ -83,6 +83,7 @@ Explaining the parameters and the returned objects:
 - `cop_coeff` is a variable that defines the width of copula's diagonal.
 - `lower_triangle` is a `boolean` value that when `True` keeps only the lower triangular matrix. This can be useful for visualization purposes.
 - `corr_matrix` is the calculated correlation matrix with dimensions equal to the number of reactions of the given model.
+- `indicator_dict` is a dictionary containing the pearson filtered reactions combinations, alongside their copula's indicator value and a classification for the correlation.
 
 I also implemented a `plot_corr_matrix` function that visualizes the correlation matrix given as an input with a heatmap plot. In reduced models, there is an option to plot only the remained reactions names, if they are provided in a list.
 
