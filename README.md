@@ -191,14 +191,13 @@ Except from the initial graph, this function splits the graph into subgraphs. If
 
 Example of calling the `graph_corr_matrix` function:
 
-    graphs, layouts = graph_corr_matrix(corr_matrix, reactions, filter="both", clusters=clusters)
+    graphs, layouts = graph_corr_matrix(corr_matrix, reactions, correction=True, clusters=clusters)
 
 Explaining the parameters and the returned objects:
 
 - `corr_matrix` is a correlation matrix produced from the `correlated_reactions` function.
 - `reactions` is a list with the reactions names, that will appear as nodes in the graphs.
-- `filters` is a variable that defines the type of networks we want to create.
-  `positive` removes negative correlations, `negative` removes positive correlations, while `both` maintains both correlation types. 
+- `correction` is a boolean type variable that if set to True, it transforms correlation from the same cluster to absolute values.
 - `clusters` is a nested list, containing sublists with reactions that belong to the same cluster, created from the `cluster_corr_reactions` function.
 - `graphs` is a list containing created graph objects.
 - `layouts` is a list containing graphs' layouts. Each layout has the same index with its corresponding graph from `graphs` list.
@@ -214,18 +213,19 @@ Explaining the parameters:
 - `graph` is a graph object returned from the `graph_corr_matrix` function.
 - `layout` is a layout that corresponds to the given graph object, also created from the `graph_corr_matrix` function.
 
-This is a graph with `filters = both` created from the `plot_graph` function from a correlation matrix without pearson filtering:
+Example of calling the `plot_graph` function recursively for every subgraph returned:
+
+    for i in range(len(graphs)):
+        graph = graphs[i]
+        layout = layouts[i]
+        plot_graph(graph, layout)
+
+This is a graph with `correction = False` created from the `plot_graph` function from a correlation matrix without pearson filtering:
 ![graph_both_no_cutoffs.png](/img/graph_both_no_cutoffs.png)
 
-This is a graph with `filters = negative` from the same correlation matrix:
-![graph_negative_pearson.png](/img/graph_negative_no_cutoffs.png)
-
-This is a graph with `filters = positive` from the same correlation matrix:
-![graph_positive_pearson.png](/img/graph_positive_no_cutoffs.png)
-
-This is a graph with `filters = both` from a correlation matrix with `pearson_cutoff = 0.99`:
+This is a graph with `correction = False` from a correlation matrix with `pearson_cutoff = 0.99`:
 ![graph_both_pearson.png](/img/graph_both_pearson.png)
 
-This is a subgraph with `filters = both` from a correlation matrix with `pearson_cutoff = 0.99`:
+This is a subgraph with `correction = False` from a correlation matrix with `pearson_cutoff = 0.99`:
 ![subgraph_both_pearson.png](/img/subgraph_both_pearson.png)
 
