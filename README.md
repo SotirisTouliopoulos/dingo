@@ -60,6 +60,7 @@ It is recommended to use `extend` set to `False` in large models, due to the hig
 - Zero correlation means that reaction A can have any status, regardless of the reaction's B status and vice versa.
 
 I implemented a `correlated_reactions` function that calculates reactions steady states using dingo's `PolytopeSampler` class and creates a correlation matrix based on pearson correlation coefficient between pairwise set of reactions. This function also calculates a copula indicator for a specific set of reactions, to filter false positive correlations.
+However, due to the random placement of reactants and products in the stoichiometry of reversible reactions, this distance method classifies some positive correlations as negative.
 
 Example of calling the `correlated_reactions` function to the E.coli core model:
 
@@ -130,7 +131,8 @@ We can see that the additional reaction removed with `extend` set to `True` is `
 - Reactions that belong to the same cluster might contribute to same pathway.
 
 I implemented a `cluster_corr_reactions` function that takes as input a correlation matrix and calculates a dissimilarity matrix.
-This done by substracting each correlation value from 1. Thus, positive correlations correspond to distances between 0 and 1 and negative correlations to distances between 1 and 2.
+This was initially done by substracting each correlation value from 1. Thus, positive correlations correspond to distances between 0 and 1 and negative correlations to distances between 1 and 2.
+To deal with the random placement of reactants and products in the stoichiometry of reversible reactions, the dissimilarity matrix was eventually calculated, by substrating each absolute correlation value from 1.
 
 Example of calling the `cluster_corr_reactions` function:
 
@@ -183,8 +185,9 @@ Far distinct clusters are observed. Graphs will reveal if these clusters interac
 - Graph creation based on outlier clusters might reveal possible reaction networks.
 - These networks can be filtered to subnetworks with only positive or negative correlations.
 
-I implemented a `graph_corr_matrix` function that takes as input a correlation matrix and creates network graphs from it. 
-Except from the initial graph, this function splits the graph into subgraphs. If the nodes from a subgraph appear in distinct clusters, then the subgraph and its layout are returned.
+I implemented a `graph_corr_matrix` function that takes as input a correlation matrix and creates network graphs from it.
+To deal with the random placement of reactants and products in the stoichiometry of reversible reactions, reactions that belong to the same cluster are assigned with the absolute of their correlation value.
+Except from the initial graph, this function splits the graph into subgraphs. If the nodes from a subgraph appear in a cluster, then the subgraph and its layout are returned.
 
 Example of calling the `graph_corr_matrix` function:
 
