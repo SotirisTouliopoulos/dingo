@@ -56,11 +56,10 @@ It is recommended to use `extend` set to `False` in large models, due to the hig
 
 - Reactions in biochemical pathways, can be positive, negative or non correlated.
 - Positive correlation between a set of reactions A and B means that if reaction A is active then reaction B is also active and vice versa.
-- Negative correlation means that if reaction A is active, then reaction B is deactive.
+- Negative correlation means that if reaction A is active, then reaction B is deactive and vice versa.
 - Zero correlation means that reaction A can have any status, regardless of the reaction's B status and vice versa.
 
 I implemented a `correlated_reactions` function that calculates reactions steady states using dingo's `PolytopeSampler` class and creates a correlation matrix based on pearson correlation coefficient between pairwise set of reactions. This function also calculates a copula indicator for a specific set of reactions, to filter false positive correlations.
-However, due to the universal placement of reactants and products in the stoichiometry of reversible reactions, this method classifies some positive correlations as negative and vice versa.
 
 Example of calling the `correlated_reactions` function to the E.coli core model:
 
@@ -131,27 +130,24 @@ We can see that the additional reaction removed with `extend` set to `True` is `
 - Reactions that belong to the same cluster might contribute to same pathway.
 
 I implemented a `cluster_corr_reactions` function that takes as input a correlation matrix and calculates a dissimilarity matrix.
-This was initially done by substracting each correlation value from 1. Thus, positive correlations correspond to distances between 0 and 1 and negative correlations to distances between 1 and 2.
-To deal with the universal placement of reactants and products in the stoichiometry of reversible reactions, the dissimilarity matrix was eventually calculated, by substrating each absolute correlation value from 1.
+The dissimilarity matrix can be calculated in 2 ways, either substrating each value from 1, or substracting each absolute value from 1.
 
 Example of calling the `cluster_corr_reactions` function:
 
     dissimilarity_matrix, labels, clusters = cluster_corr_reactions(corr_matrix,
                                              reactions=reactions,
-                                             method="hierarchical",
                                              linkage="ward",
-                                             t = 10.0)
+                                             t = 10.0,
+                                             correction = True)
 
 Explaining the parameters and the returned objects:
 
 - `corr_matrix` is a correlation matrix produced from the `correlated_reactions` function.
 - `reactions` is a list with the reactions names.
-- `method` is a variable that defines the clustering method. `hierarchical`, `kmeans`, `hdbscan` are available methods.
-- `likage` is used only in `hierarchical` clustering. It defines the type of linkage. `single`, `average`, `complete`, `ward` are available linkage types.
+- `likage` defines the type of linkage. `single`, `average`, `complete`, `ward` are available linkage types.
 - `t` defines a height threshold to cut the dendrogram and return clusters.
-- `n_clusters` is used only in `kmeans` clustering. It defines the number of clusters.
-- `min_cluster_size` is used only in `hdbscan` clustering. It defines the minimum number of points that can create a cluster.
-- `dissimilarity_matrix` is returned only when using the `hierarchical` method. It is the distance matrix created from the correlation matrix.
+- `correction` is a boolean variable that if True, the dissimilarity matrix is calculated from substracting absolute values from 1.
+- `dissimilarity_matrix` is the distance matrix created from the correlation matrix.
 - `labels` are index labels that correspond to a specific cluster.
 - `clusters` is a nested list, containing sublists with reactions that belong to the same cluster.
 
@@ -171,10 +167,10 @@ Explaining the parameters:
 
 All the dendrograms and graphs in this page are created from correlation matrices of the E. coli core model.
 
-This is a dendrogram created from the `plot_dendrogram` function from a correlation matrix without pearson filtering:
+This is a dendrogram created from the `plot_dendrogram` function from a correlation matrix without pearson filtering with `correction = True`:
 ![dendrogram_no_cutoffs.png](/img/dendrogram_no_cutoffs.png)
 
-This is a dendrogram from the same correlation matrix with `pearson_cutoff = 0.99`:
+This is a dendrogram from the same correlation matrix with `pearson_cutoff = 0.9999` with `correction = True`:
 ![dendrogram_pearson.png](/img/dendrogram_pearson.png)
 
 Far distinct clusters are observed. Graphs will reveal if these clusters interact with other clusters or reactions.
@@ -182,11 +178,10 @@ Far distinct clusters are observed. Graphs will reveal if these clusters interac
 
 ## Graphs
 
-- Graph creation based on outlier clusters might reveal possible reaction networks.
-- These networks can be filtered to subnetworks with only positive or negative correlations.
+- Graph creation based on outlier clusters might reveal possible reactions networks.
+- Subgraphs creation will reveal reactions subnetworks
 
 I implemented a `graph_corr_matrix` function that takes as input a correlation matrix and creates network graphs from it.
-To deal with the universal placement of reactants and products in the stoichiometry of reversible reactions, reactions that belong to the same cluster are assigned with the absolute of their correlation value.
 Except from the initial graph, this function splits the graph into subgraphs. If the nodes from a subgraph appear in a cluster, then the subgraph and its layout are returned.
 
 Example of calling the `graph_corr_matrix` function:
@@ -197,7 +192,7 @@ Explaining the parameters and the returned objects:
 
 - `corr_matrix` is a correlation matrix produced from the `correlated_reactions` function.
 - `reactions` is a list with the reactions names, that will appear as nodes in the graphs.
-- `correction` is a boolean type variable that if set to True, it transforms correlation from the same cluster to absolute values.
+- `correction` is a boolean type variable that if set to True, it transforms the correlation matrix to the absolute correlation matrix.
 - `clusters` is a nested list, containing sublists with reactions that belong to the same cluster, created from the `cluster_corr_reactions` function.
 - `graphs` is a list containing created graph objects.
 - `layouts` is a list containing graphs' layouts. Each layout has the same index with its corresponding graph from `graphs` list.
@@ -220,12 +215,12 @@ Example of calling the `plot_graph` function recursively for every subgraph retu
         layout = layouts[i]
         plot_graph(graph, layout)
 
-This is a graph with `correction = False` created from the `plot_graph` function from a correlation matrix without pearson filtering:
-![graph_both_no_cutoffs.png](/img/graph_both_no_cutoffs.png)
+This is a graph created from the `plot_graph` function from a correlation matrix without pearson filtering and with `correction = True`:
+![graph_no_cutoffs.png](/img/graph_no_cutoffs.png)
 
-This is a graph with `correction = False` from a correlation matrix with `pearson_cutoff = 0.99`:
-![graph_both_pearson.png](/img/graph_both_pearson.png)
+This is a graph created from a correlation matrix with `pearson_cutoff = 0.9999` and with `correction = True`:
+![graph_pearson.png](/img/graph_pearson.png)
 
-This is a subgraph with `correction = False` from a correlation matrix with `pearson_cutoff = 0.99`:
-![subgraph_both_pearson.png](/img/subgraph_both_pearson.png)
+This is a subgraph created from a correlation matrix with `pearson_cutoff = 0.9999` and with `correction = True`:
+![subgraph_pearson.png](/img/subgraph_pearson.png)
 
