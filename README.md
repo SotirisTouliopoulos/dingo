@@ -224,3 +224,12 @@ This is a graph created from a correlation matrix with `pearson_cutoff = 0.9999`
 This is a subgraph created from a correlation matrix with `pearson_cutoff = 0.9999` and with `correction = True`:
 ![subgraph_pearson.png](/img/subgraph_pearson.png)
 
+This subgraph has 9 nodes that correspond to 9 reactions topoligcally close to each other in the E. coli core model.
+These reactions are: `PGI, G6PDH2R, PGL, GND, RPE, RPI, TKT1, TALA, TKT2`
+Their metabolic topology can be seen in the following figure obtained from `ESCHER`:
+![escher_subgraph.png](/img/escher_subgraph.png)
+
+We can see that `PGI` seems to contribute to a different pathway. However it shares a common metabolite with `G6PDH2r`.
+If we apply a stricter pearson cutoff equal to 0.99999, this reaction would be removed from this subgraph and only the rest of the reactions would remain.
+This is an important observation. Looser cutoffs lead to wider sets of connected reactions that form larger metabolic pathways.
+
