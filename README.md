@@ -236,5 +236,5 @@ This is an important observation. Looser cutoffs lead to wider sets of connected
 
 ## Conclusion
 
-- Flux sampling is an unbiased method that can advance research in metabolic models both the strain and the community level.
-- From model reduction to pathways identification, the developed features show the increased statistical value of flux sampling.
+- Flux sampling is an unbiased method that can advance research in metabolic models both at the strain and the community level.
+- From model reduction to pathways identification, the developed features incorporated to `dingo`, show the increased statistical value of flux sampling.
