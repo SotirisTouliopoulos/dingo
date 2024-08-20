@@ -221,7 +221,7 @@ This is a graph created from the `plot_graph` function from a correlation matrix
 This is a graph created from a correlation matrix with `pearson_cutoff = 0.9999` and with `correction = True`:
 ![graph_pearson.png](/img/graph_pearson.png)
 
-This is a subgraph created from a correlation matrix with `pearson_cutoff = 0.9999` and with `correction = True`:
+This is one of the subgraphs created from a correlation matrix with `pearson_cutoff = 0.9999` and with `correction = True`:
 ![subgraph_pearson.png](/img/subgraph_pearson.png)
 
 This subgraph has 9 nodes that correspond to 9 reactions close to each other in the topology of the E. coli core model.
