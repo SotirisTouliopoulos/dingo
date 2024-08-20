@@ -178,8 +178,8 @@ Far distinct clusters are observed. Graphs will reveal if these clusters interac
 
 ## Graphs
 
-- Graph creation reveals the reactions correlation network.
-- Subgraphs creation will reveal reactions subnetworks.
+- Graph creation can reveal reactions networks.
+- Subgraphs creation can reveal reactions subnetworks.
 
 I implemented a `graph_corr_matrix` function that takes as an input a correlation matrix and creates network graphs from it.
 Except from the initial graph, this function splits the graph into subgraphs.
@@ -236,5 +236,6 @@ This is an important observation. Looser cutoffs lead to wider sets of connected
 
 ## Conclusion
 
+- `dingo` is a python package for the analysis of metabolic networks. I expanded `dingo` by incorporating pre- and post- sampling features.
 - Flux sampling is an unbiased method that can advance research in metabolic models both at the strain and the community level.
 - From model reduction to pathways identification, the developed features incorporated to `dingo`, show the increased statistical value of flux sampling.
