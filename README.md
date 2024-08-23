@@ -20,7 +20,7 @@
 - Sampling in the flux space of such models requires an increased computational time due to the higher number of dimensions.
 - Preprocessing of models can deal with this problem, as it removes certain reactions and thus decreases dimensional space.
 
-#### The concept of reduction of metabolic models is illustrated in the following figure:
+#### The concept of reduction in metabolic models is illustrated in the following figure:
 
 ![Network Reduction Concept](/img/reduction.png)
 
