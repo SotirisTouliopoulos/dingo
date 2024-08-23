@@ -10,6 +10,7 @@
 - preprocess for the reduction of metabolic models.
 - inference of pairwise correlated reactions.
 - visualization of a steady-states correlation matrix.
+- clustering of a steady-states correlation matrix.
 - construction of a weighted graph of the model's reactions with the correlation coefficients as weights.
 
 
@@ -66,7 +67,8 @@ Example of calling the `correlated_reactions` function to the E.coli core model:
 
     sampler = PolytopeSampler(dingo_model)
     steady_states = sampler.generate_steady_states()
-    corr_matrix, indicator_dict = correlated_reactions(steady_states,
+    corr_matrix, indicator_dict = correlated_reactions(
+                                  steady_states,
                                   pearson_cutoff = 0.99,
                                   indicator_cutoff=2,
                                   cells = 10,
@@ -167,10 +169,10 @@ Explaining the parameters:
 
 All the dendrograms and graphs in this page are created from correlation matrices of the E. coli core model.
 
-This is a dendrogram created from the `plot_dendrogram` function from a correlation matrix without pearson filtering with `correction = True`:
+This is a dendrogram created from the `plot_dendrogram` function from a correlation matrix without pearson filtering and with `correction = True`:
 ![dendrogram_no_cutoffs.png](/img/dendrogram_no_cutoffs.png)
 
-This is a dendrogram from the same correlation matrix with `pearson_cutoff = 0.9999` with `correction = True`:
+This is a dendrogram from the same correlation matrix with `pearson_cutoff = 0.9999` and with `correction = True`:
 ![dendrogram_pearson.png](/img/dendrogram_pearson.png)
 
 Far distinct clusters are observed. Graphs will reveal if these clusters interact with other clusters or reactions.
