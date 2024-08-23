@@ -59,7 +59,7 @@ It is recommended to use `extend` set to `False` in large models, due to the hig
 - Negative correlation means that if reaction A is active, then reaction B is deactive and vice versa.
 - Zero correlation means that reaction A can have any status, regardless of the reaction's B status and vice versa.
 
-I implemented a `correlated_reactions` function that calculates reactions steady states using dingo's `PolytopeSampler` class and then creates a correlation matrix based on pearson correlation coefficient between pairwise set of reactions. This function also calculates a copula indicator for a specific set of reactions, to filter false positive correlations.
+I implemented a `correlated_reactions` function that calculates reactions steady states using dingo's `PolytopeSampler` class and then creates a correlation matrix based on pearson correlation coefficient between pairwise set of reactions. This function also calculates a copula indicator for filtering correlations greater than the pearson cutoff.
 
 Example of calling the `correlated_reactions` function to the E.coli core model:
 
@@ -79,7 +79,7 @@ Explaining the parameters and the returned objects:
 
 - `steady_states` are the reactions steady states returned from dingo's `generate_steady_states` function.
 - `pearson_cutoff` is a cutoff to filter and replace all lower correlation values with 0.
-- `indicator_cutoff` is a cutoff that corresponds to the copula's indicator. It filters false positive correlations for correlations greater than the pearson cutoff and replaces them with 0.
+- `indicator_cutoff` is a cutoff that corresponds to the copula's indicator. It filters correlations greater than the pearson cutoff.
 - `cells` is a variable that defines the number of cells in the computed copulas.
 - `cop_coeff` is a variable that defines the width of the copula's diagonal.
 - `lower_triangle` is a `boolean` value that when `True` keeps only the lower triangular matrix. This can be useful for visualization purposes.
