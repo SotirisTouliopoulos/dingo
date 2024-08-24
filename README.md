@@ -19,7 +19,7 @@
 - Large metabolic models contain many reactions and metabolites. 
 - Sampling in the flux space of such models requires an increased computational time due to the higher number of dimensions.
 - Preprocessing of models can deal with this problem, as it removes certain reactions and thus decreases dimensional space.
-- [These implementations derive from the 1st pull request.](https://github.com/GeomScale/dingo/pull/100)
+- [These features derive from the 1st pull request.](https://github.com/GeomScale/dingo/pull/100)
 
 #### The concept of reduction in metabolic models is illustrated in the following figure created with BioRender <a href="#ref-1">[1]</a>:
 
@@ -59,7 +59,7 @@ It is recommended to use `extend` set to `False` in large models, due to the hig
 - Positive correlation between a set of reactions A and B means that if reaction A is active then reaction B is also active and vice versa.
 - Negative correlation means that if reaction A is active, then reaction B is deactive and vice versa.
 - Zero correlation means that reaction A can have any status, regardless of the reaction's B status and vice versa.
-- [These implementations derive from the 2nd pull request.](https://github.com/GeomScale/dingo/pull/103)
+- [These features derive from the 2nd pull request.](https://github.com/GeomScale/dingo/pull/103)
 
 I implemented a `correlated_reactions` function that calculates reactions steady states using dingo's `PolytopeSampler` class and then creates a correlation matrix based on pearson correlation coefficient between pairwise set of reactions. This function also calculates a copula indicator for filtering correlations greater than the pearson cutoff.
 
@@ -131,7 +131,7 @@ We can see that the additional reaction removed with `extend` set to `True` is `
 
 - Clustering based on a dissimilarity matrix, reveals group of reactions with similar correlation values across the matrix.
 - Reactions that belong to the same cluster might contribute to the same pathways.
-- [These implementations derive from the 3rd pull request.](https://github.com/GeomScale/dingo/pull/105)
+- [These features derive from the 3rd pull request.](https://github.com/GeomScale/dingo/pull/105)
 
 I implemented a `cluster_corr_reactions` function that takes as an input a correlation matrix and calculates a dissimilarity matrix.
 The dissimilarity matrix can be calculated in 2 ways, either substrating each value from 1, or substracting each absolute value from 1.
@@ -183,9 +183,9 @@ Far distinct clusters are observed. Graphs will reveal if these clusters interac
 
 ## Graphs
 
-- Graph creation can reveal reactions networks.
-- Subgraphs creation can reveal reactions subnetworks.
-- [These implementations derive from the 3rd pull request.](https://github.com/GeomScale/dingo/pull/105)
+- Graph creation can reveal networks of correlated reactions.
+- These networks might correspond to metabolic pathways.
+- [These features derive from the 3rd pull request.](https://github.com/GeomScale/dingo/pull/105)
 
 I implemented a `graph_corr_matrix` function that takes as an input a correlation matrix and creates network graphs from it.
 Except from the initial graph, this function splits the graph into subgraphs.
