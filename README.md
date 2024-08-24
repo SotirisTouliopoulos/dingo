@@ -245,7 +245,7 @@ This is an important observation. Looser cutoffs lead to wider sets of connected
 
 ## References
 
-- <a id="ref-1"></a>[1]: Created with BioRender.com.
-- <a id="ref-2"></a>[2]: Zachary A. King, Justin Lu, Andreas Dräger, Philip Miller, Stephen Federowicz, Joshua A. Lerman, Ali Ebrahim, Bernhard O. Palsson, Nathan E. Lewis, BiGG Models: A platform for integrating, standardizing and sharing genome-scale models, Nucleic Acids Research, Volume 44, Issue D1, 4 January 2016, Pages D515–D522, https://doi.org/10.1093/nar/gkv1049.
-- <a id="ref-3"></a>[3]: Chalkis A, Fisikopoulos V, Tsigaridas E, Zafeiropoulos H. dingo: a Python package for metabolic flux sampling. Bioinform Adv. 2024 Mar 22;4(1):vbae037. doi: 10.1093/bioadv/vbae037. PMID: 38586119; PMCID: PMC10997433.
-- <a id="ref-4"></a>[4]: Zachary A. King, Andreas Dräger, Ali Ebrahim, Nikolaus Sonnenschein, Nathan E. Lewis, and Bernhard O. Palsson (2015) Escher: A web application for building, sharing, and embedding data-rich visualizations of biological pathways, PLOS Computational Biology 11(8): e1004321. doi:10.1371/journal.pcbi.1004321.
+- <a id="ref-1"></a> [1]: Created with BioRender.com.
+- <a id="ref-2"></a> [2]: Zachary A. King, Justin Lu, Andreas Dräger, Philip Miller, Stephen Federowicz, Joshua A. Lerman, Ali Ebrahim, Bernhard O. Palsson, Nathan E. Lewis, BiGG Models: A platform for integrating, standardizing and sharing genome-scale models, Nucleic Acids Research, Volume 44, Issue D1, 4 January 2016, Pages D515–D522, https://doi.org/10.1093/nar/gkv1049.
+- <a id="ref-3"></a> [3]: Chalkis A, Fisikopoulos V, Tsigaridas E, Zafeiropoulos H. dingo: a Python package for metabolic flux sampling. Bioinform Adv. 2024 Mar 22;4(1):vbae037. doi: 10.1093/bioadv/vbae037. PMID: 38586119; PMCID: PMC10997433.
+- <a id="ref-4"></a> [4]: Zachary A. King, Andreas Dräger, Ali Ebrahim, Nikolaus Sonnenschein, Nathan E. Lewis, and Bernhard O. Palsson (2015) Escher: A web application for building, sharing, and embedding data-rich visualizations of biological pathways, PLOS Computational Biology 11(8): e1004321. doi:10.1371/journal.pcbi.1004321.
