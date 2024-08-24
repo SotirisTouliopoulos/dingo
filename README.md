@@ -1,8 +1,3 @@
----
-read_time: true
----
-
-
 # Pre- and post-sampling features to leverage flux sampling at both the strain and the community level
 
 #### A contribution for the Google Summer of Code 2024 program
