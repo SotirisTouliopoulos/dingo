@@ -183,12 +183,12 @@ Far distinct clusters are observed. Graphs will reveal if these clusters interac
 
 ## Graphs
 
-- Graph creation can reveal networks of correlated reactions.
+- Graphs creation can reveal networks of correlated reactions.
 - These networks might correspond to metabolic pathways.
 - [These features derive from the 3rd pull request.](https://github.com/GeomScale/dingo/pull/105)
 
 I implemented a `graph_corr_matrix` function that takes as an input a correlation matrix and creates network graphs from it.
-Except from the initial graph, this function splits the graph into subgraphs.
+Except from the initial graph this function splits the graph into subgraphs.
 
 Example of calling the `graph_corr_matrix` function:
 
@@ -203,7 +203,7 @@ Explaining the parameters and the returned objects:
 - `graphs` is a list containing created graph objects.
 - `layouts` is a list containing graphs' layouts. Each layout has the same index with its corresponding graph from `graphs` list.
 
-I also implemented a `plot_graph` function, that takes as an input a graph object with its corresponding layout and plots the resulting graph.
+I also implemented a `plot_graph` function that takes a graph object with its corresponding layout as inputs and plots the resulting graph.
 
 Example of calling the `plot_graph` function:
 
@@ -244,7 +244,7 @@ This is an important observation. Looser cutoffs lead to wider sets of connected
 
 - `dingo` is a python package for the analysis of metabolic networks. I expanded `dingo` by incorporating pre- and post- sampling features.
 - Flux sampling is an unbiased method that can advance research in metabolic models both at the strain and the community level.
-- From model reduction to pathways identification, the developed features incorporated to `dingo`, show the increased statistical value of flux sampling.
+- From model reduction to pathways identification, the developed features incorporated to `dingo` show the increased statistical value of flux sampling.
 
 
 ## References
