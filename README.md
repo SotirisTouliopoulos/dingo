@@ -16,7 +16,7 @@
 
 ## Preprocess
 
-- [Pull Request #1:] (https://github.com/GeomScale/dingo/pull/100)
+- [1st pull request](https://github.com/GeomScale/dingo/pull/100)
 - Large metabolic models contain many reactions and metabolites. 
 - Sampling in the flux space of such models requires an increased computational time due to the higher number of dimensions.
 - Preprocessing of models can deal with this problem, as it removes certain reactions and thus decreases dimensional space.
