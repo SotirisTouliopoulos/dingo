@@ -20,7 +20,7 @@
 - Sampling in the flux space of such models requires an increased computational time due to the higher number of dimensions.
 - Preprocessing of models can deal with this problem, as it removes certain reactions and thus decreases dimensional space.
 
-#### The concept of reduction in metabolic models is illustrated in the following figure created with BioRender <a href="#ref-3">[1]</a>:
+#### The concept of reduction in metabolic models is illustrated in the following figure created with BioRender <a href="#ref-1">[1]</a>:
 
 ![Network Reduction Concept](/img/reduction.png)
 
@@ -43,7 +43,7 @@ Explaining the parameters and the returned objects:
 - Users can decide if they want to remove an additional set of reactions, by setting the `extend` parameter to `True`.
   These reactions are the ones that do not affect the value of the objective function, when removed.
 
-Reduction with the `PreProcess` class has been tested with various models [2](#ref-2). Some of them are used in dingo's [3](#ref-3) publication article too. 
+Reduction with the `PreProcess` class has been tested with various models <a href="#ref-2">[2]</a>. Some of them are used in dingo's <a href="#ref-3">[3]</a> publication article too. 
 A figure with reduction results follows, which presents the number of remained reactions, after calling the `reduce` function with `extend` set both to `False` and `True`.
 Reduction with `extend` set to `True` is based on sampling, so a slight change in the number of remained reactions may appear from time to time. 
 It is recommended to use `extend` set to `False` in large models, due to the higher computational time.
@@ -121,7 +121,7 @@ A heatmap from a symmetrical correlation matrix with `pearson_cutoff = 0.7` and 
 ![corr_matrix_extend_true.png](/img/corr_matrix_extend_true.png)
 
 We can see that the additional reaction removed with `extend` set to `True` is `FRD7` which is the least correlated one across the matrix.
-`FRD7` is a fumarate reductase, which in the E. coli core model appears in a loop with `SUCDi`, as seen in the following figure obtained from `ESCHER` [4](#ref-4):
+`FRD7` is a fumarate reductase, which in the E. coli core model appears in a loop with `SUCDi`, as seen in the following figure obtained from `ESCHER` <a href="#ref-4">[4]</a>:
 ![escher_frd7.png](/img/escher_frd7.png)
 
 
