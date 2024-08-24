@@ -43,7 +43,7 @@ Explaining the parameters and the returned objects:
 - Users can decide if they want to remove an additional set of reactions, by setting the `extend` parameter to `True`.
   These reactions are the ones that do not affect the value of the objective function, when removed.
 
-Reduction with the `PreProcess` class has been tested with various models [2]. Some of them are used in dingo's [3] publication article too. 
+Reduction with the `PreProcess` class has been tested with various models [2](#ref-2). Some of them are used in dingo's [3](#ref-3) publication article too. 
 A figure with reduction results follows, which presents the number of remained reactions, after calling the `reduce` function with `extend` set both to `False` and `True`.
 Reduction with `extend` set to `True` is based on sampling, so a slight change in the number of remained reactions may appear from time to time. 
 It is recommended to use `extend` set to `False` in large models, due to the higher computational time.
@@ -121,7 +121,7 @@ A heatmap from a symmetrical correlation matrix with `pearson_cutoff = 0.7` and 
 ![corr_matrix_extend_true.png](/img/corr_matrix_extend_true.png)
 
 We can see that the additional reaction removed with `extend` set to `True` is `FRD7` which is the least correlated one across the matrix.
-`FRD7` is a fumarate reductase, which in the E. coli core model appears in a loop with `SUCDi`, as seen in the following figure obtained from `ESCHER` [4]:
+`FRD7` is a fumarate reductase, which in the E. coli core model appears in a loop with `SUCDi`, as seen in the following figure obtained from `ESCHER` [4](#ref-4):
 ![escher_frd7.png](/img/escher_frd7.png)
 
 
@@ -246,6 +246,6 @@ This is an important observation. Looser cutoffs lead to wider sets of connected
 ## References
 
 - <a id="ref-1"></a>[1]: Created with BioRender.com.
-- [2]: Zachary A. King, Justin Lu, Andreas Dräger, Philip Miller, Stephen Federowicz, Joshua A. Lerman, Ali Ebrahim, Bernhard O. Palsson, Nathan E. Lewis, BiGG Models: A platform for integrating, standardizing and sharing genome-scale models, Nucleic Acids Research, Volume 44, Issue D1, 4 January 2016, Pages D515–D522, https://doi.org/10.1093/nar/gkv1049.
-- [3]: Chalkis A, Fisikopoulos V, Tsigaridas E, Zafeiropoulos H. dingo: a Python package for metabolic flux sampling. Bioinform Adv. 2024 Mar 22;4(1):vbae037. doi: 10.1093/bioadv/vbae037. PMID: 38586119; PMCID: PMC10997433.
-- [4]: Zachary A. King, Andreas Dräger, Ali Ebrahim, Nikolaus Sonnenschein, Nathan E. Lewis, and Bernhard O. Palsson (2015) Escher: A web application for building, sharing, and embedding data-rich visualizations of biological pathways, PLOS Computational Biology 11(8): e1004321. doi:10.1371/journal.pcbi.1004321.
+- <a id="ref-2"></a>[2]: Zachary A. King, Justin Lu, Andreas Dräger, Philip Miller, Stephen Federowicz, Joshua A. Lerman, Ali Ebrahim, Bernhard O. Palsson, Nathan E. Lewis, BiGG Models: A platform for integrating, standardizing and sharing genome-scale models, Nucleic Acids Research, Volume 44, Issue D1, 4 January 2016, Pages D515–D522, https://doi.org/10.1093/nar/gkv1049.
+- <a id="ref-3"></a>[3]: Chalkis A, Fisikopoulos V, Tsigaridas E, Zafeiropoulos H. dingo: a Python package for metabolic flux sampling. Bioinform Adv. 2024 Mar 22;4(1):vbae037. doi: 10.1093/bioadv/vbae037. PMID: 38586119; PMCID: PMC10997433.
+- <a id="ref-4"></a>[4]: Zachary A. King, Andreas Dräger, Ali Ebrahim, Nikolaus Sonnenschein, Nathan E. Lewis, and Bernhard O. Palsson (2015) Escher: A web application for building, sharing, and embedding data-rich visualizations of biological pathways, PLOS Computational Biology 11(8): e1004321. doi:10.1371/journal.pcbi.1004321.
