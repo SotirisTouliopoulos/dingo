@@ -5,7 +5,7 @@
 
 ## Overall
 
-#### A summary of the implemented methods, merged into the dingo library:
+#### A summary of the implemented methods, merged into the dingo [1] library:
 
 - preprocess for the reduction of metabolic models.
 - inference of pairwise correlated reactions.
@@ -20,7 +20,7 @@
 - Sampling in the flux space of such models requires an increased computational time due to the higher number of dimensions.
 - Preprocessing of models can deal with this problem, as it removes certain reactions and thus decreases dimensional space.
 
-#### The concept of reduction in metabolic models is illustrated in the following figure:
+#### The concept of reduction in metabolic models is illustrated in the following figure [2]:
 
 ![Network Reduction Concept](/img/reduction.png)
 
@@ -121,7 +121,7 @@ A heatmap from a symmetrical correlation matrix with `pearson_cutoff = 0.7` and 
 ![corr_matrix_extend_true.png](/img/corr_matrix_extend_true.png)
 
 We can see that the additional reaction removed with `extend` set to `True` is `FRD7` which is the least correlated one across the matrix.
-`FRD7` is a fumarate reductase, which in the E. coli core model appears in a loop with `SUCDi`, as seen in the following figure obtained from `ESCHER`:
+`FRD7` is a fumarate reductase, which in the E. coli core model appears in a loop with `SUCDi`, as seen in the following figure obtained from `ESCHER` [3]:
 ![escher_frd7.png](/img/escher_frd7.png)
 
 
@@ -241,3 +241,10 @@ This is an important observation. Looser cutoffs lead to wider sets of connected
 - `dingo` is a python package for the analysis of metabolic networks. I expanded `dingo` by incorporating pre- and post- sampling features.
 - Flux sampling is an unbiased method that can advance research in metabolic models both at the strain and the community level.
 - From model reduction to pathways identification, the developed features incorporated to `dingo`, show the increased statistical value of flux sampling.
+
+
+## References
+
+- [1] Chalkis A, Fisikopoulos V, Tsigaridas E, Zafeiropoulos H. dingo: a Python package for metabolic flux sampling. Bioinform Adv. 2024 Mar 22;4(1):vbae037. doi: 10.1093/bioadv/vbae037. PMID: 38586119; PMCID: PMC10997433.
+- [2] Created with BioRender.com
+- [3] Zachary A. King, Andreas Dräger, Ali Ebrahim, Nikolaus Sonnenschein, Nathan E. Lewis, and Bernhard O. Palsson (2015) Escher: A web application for building, sharing, and embedding data-rich visualizations of biological pathways, PLOS Computational Biology 11(8): e1004321. doi:10.1371/journal.pcbi.1004321.
