@@ -67,17 +67,19 @@ I implemented a `correlated_reactions` function that calculates reactions steady
 
 Example of calling the `correlated_reactions` function to the E.coli core model:
 
-    dingo_model = MetabolicNetwork.from_json('ext_data/e_coli_core.json')
+```python
+dingo_model = MetabolicNetwork.from_json('ext_data/e_coli_core.json')
 
-    sampler = PolytopeSampler(dingo_model)
-    steady_states = sampler.generate_steady_states()
-    corr_matrix, indicator_dict = correlated_reactions(
-                                  steady_states,
-                                  pearson_cutoff = 0.99,
-                                  indicator_cutoff=2,
-                                  cells = 10,
-                                  cop_coeff = 0.3,
-                                  lower_triangle = False)
+sampler = PolytopeSampler(dingo_model)
+steady_states = sampler.generate_steady_states()
+corr_matrix, indicator_dict = correlated_reactions(
+                              steady_states,
+                              pearson_cutoff = 0.99,
+                              indicator_cutoff=2,
+                              cells = 10,
+                              cop_coeff = 0.3,
+                              lower_triangle = False)
+```
 
 Explaining the parameters and the returned objects:
 
@@ -94,7 +96,9 @@ I also implemented a `plot_corr_matrix` function that visualizes the correlation
 
 Example of calling the `plot_corr_matrix` function:
 
-    plot_corr_matrix(corr_matrix, reactions, format="svg")
+```python
+plot_corr_matrix(corr_matrix, reactions, format="svg")
+```
 
 Explaining the parameters:
 
@@ -140,12 +144,14 @@ The dissimilarity matrix can be calculated in 2 ways, either substrating each va
 
 Example of calling the `cluster_corr_reactions` function:
 
-    dissimilarity_matrix, labels, clusters = cluster_corr_reactions(
-                                             corr_matrix,
-                                             reactions=reactions,
-                                             linkage="ward",
-                                             t = 10.0,
-                                             correction = True)
+```python
+dissimilarity_matrix, labels, clusters = cluster_corr_reactions(
+                                          corr_matrix,
+                                          reactions=reactions,
+                                          linkage="ward",
+                                          t = 10.0,
+                                          correction = True)
+```
 
 Explaining the parameters and the returned objects:
 
@@ -162,7 +168,9 @@ I also implemented a `plot_dendrogram` function, that plots a dendrogram given a
 
 Example of calling the `plot_dendrogram` function:
 
-    plot_dendrogram(dissimilarity_matrix, reactions , plot_labels=True, t=10.0, linkage="ward")
+```python
+plot_dendrogram(dissimilarity_matrix, reactions , plot_labels=True, t=10.0, linkage="ward")
+```
 
 Explaining the parameters:
 
@@ -194,7 +202,9 @@ Except from the initial graph this function splits the graph into subgraphs.
 
 Example of calling the `graph_corr_matrix` function:
 
-    graphs, layouts = graph_corr_matrix(corr_matrix, reactions, correction=True, clusters=clusters)
+```python
+graphs, layouts = graph_corr_matrix(corr_matrix, reactions, correction=True, clusters=clusters)
+```
 
 Explaining the parameters and the returned objects:
 
@@ -209,7 +219,9 @@ I also implemented a `plot_graph` function that takes a graph object with its co
 
 Example of calling the `plot_graph` function:
 
-    plot_graph(graph, layout)
+```python
+plot_graph(graph, layout)
+```
 
 Explaining the parameters:
 
@@ -218,10 +230,12 @@ Explaining the parameters:
 
 Example of calling the `plot_graph` function recursively for every subgraph returned:
 
-    for i in range(len(graphs)):
-        graph = graphs[i]
-        layout = layouts[i]
-        plot_graph(graph, layout)
+```python
+for i in range(len(graphs)):
+    graph = graphs[i]
+    layout = layouts[i]
+    plot_graph(graph, layout)
+```
 
 This is a graph created from the `plot_graph` function from a correlation matrix without pearson filtering and with `correction = True`:
 ![graph_no_cutoffs.png](/img/graph_no_cutoffs.png)
