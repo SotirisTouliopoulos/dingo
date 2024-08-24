@@ -33,9 +33,11 @@ I implemented a `PreProcess` class that identifies and removes 3 types of reacti
 
 Example of calling the `reduce` function of the `PreProcess` class to the E.coli core model:
 
+    ```python
     cobra_model = load_json_model("ext_data/e_coli_core.json")
     obj = PreProcess(cobra_model, tol=1e-6, open_exchanges=False)
     removed_reactions, final_dingo_model = obj.reduce(extend=False)
+    ```
 
 Explaining the parameters and the returned objects:
 
