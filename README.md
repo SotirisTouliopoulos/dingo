@@ -36,14 +36,14 @@ Example of using the `reduce` function of the `PreProcess` class on the E. coli 
 ```python
 cobra_model = load_json_model("ext_data/e_coli_core.json")
 obj = PreProcess(cobra_model, tol = 1e-6, open_exchanges = False)
-removed_reactions, final_dingo_model = obj.reduce(extend = False)
+removed_reactions, reduced_dingo_model = obj.reduce(extend = False)
 ```
 
 Explanation of the parameters and returned objects:
 
 - `open_exchanges`: A parameter for the `find_blocked_reactions` function of the `COBRApy` library. It controls whether to open all exchange reactions to very high flux ranges.
 - `removed_reactions`: A list that contains the names of the removed reactions.
-- `final_dingo_model`: A reduced model with the bounds of removed reactions set to 0.
+- `reduced_dingo_model`: A reduced model with the bounds of removed reactions set to 0.
 
 Users can choose to remove an additional set of reactions, by setting the `extend` parameter to `True`.
 These reactions do not affect the value of the objective function, when removed.
