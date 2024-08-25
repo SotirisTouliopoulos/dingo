@@ -35,8 +35,8 @@ Example of using the `reduce` function of the `PreProcess` class on the E. coli 
 
 ```python
 cobra_model = load_json_model("ext_data/e_coli_core.json")
-obj = PreProcess(cobra_model, tol=1e-6, open_exchanges=False)
-removed_reactions, final_dingo_model = obj.reduce(extend=False)
+obj = PreProcess(cobra_model, tol = 1e-6, open_exchanges = False)
+removed_reactions, final_dingo_model = obj.reduce(extend = False)
 ```
 
 Explanation of the parameters and returned objects:
@@ -71,7 +71,7 @@ This function also calculates a copula indicator to filter correlations greater 
 Example of using the `correlated_reactions` function on the E. coli core model:
 
 ```python
-dingo_model = MetabolicNetwork.from_json('ext_data/e_coli_core.json')
+dingo_model = MetabolicNetwork.from_json("ext_data/e_coli_core.json")
 
 sampler = PolytopeSampler(dingo_model)
 steady_states = sampler.generate_steady_states()
@@ -139,14 +139,14 @@ We observe that the additional reaction removed with `extend` set to `True` is `
 
 ## Clustering
 
-- Clustering based on a dissimilarity matrix, reveals group of reactions with similar correlation values across the matrix.
-- Reactions that belong to the same cluster might contribute to the same pathways.
+- Clustering based on a dissimilarity matrix reveals groups of reactions with similar correlation values.
+- Reactions within the same cluster may contribute to the same pathways.
 - [These features derive from the 3rd pull request.](https://github.com/GeomScale/dingo/pull/105)
 
-I implemented a `cluster_corr_reactions` function that takes as an input a correlation matrix and calculates a dissimilarity matrix.
-The dissimilarity matrix can be calculated in 2 ways, either substrating each value from 1, or substracting each absolute value from 1.
+I implemented a `cluster_corr_reactions` function that takes a correlation matrix as input and calculates a dissimilarity matrix. 
+The dissimilarity matrix can be calculated in two ways: by subtracting each value from 1 or by subtracting each absolute value from 1.
 
-Example of calling the `cluster_corr_reactions` function:
+Example of using the `cluster_corr_reactions` function:
 
 ```python
 dissimilarity_matrix, labels, clusters = cluster_corr_reactions(
@@ -157,18 +157,18 @@ dissimilarity_matrix, labels, clusters = cluster_corr_reactions(
                                           correction = True)
 ```
 
-Explaining the parameters and the returned objects:
+Explanation of the parameters and returned objects:
 
-- `corr_matrix` is a correlation matrix produced from the `correlated_reactions` function.
-- `reactions` is a list with the reactions names.
-- `likage` defines the type of linkage. `single`, `average`, `complete`, `ward` are available linkage types.
-- `t` defines a height threshold to cut the dendrogram and return the created clusters.
-- `correction` is a boolean variable that if True, the dissimilarity matrix is calculated by substracting absolute values from 1.
-- `dissimilarity_matrix` is the distance matrix created from the correlation matrix.
-- `labels` are index labels that correspond to a specific cluster.
-- `clusters` is a nested list, containing sublists with reactions that belong to the same cluster.
+- `corr_matrix`: A correlation matrix produced by the `correlated_reactions` function.
+- `reactions`: A list of reaction names.
+- `linkage`: Defines the type of linkage (options: `single`, `average`, `complete`, `ward`).
+- `t`: Defines a height threshold to cut the dendrogram and return the created clusters.
+- `correction`: A boolean variable; if `True`, the dissimilarity matrix is calculated by subtracting absolute values from 1.
+- `dissimilarity_matrix`: A distance matrix created from the correlation matrix.
+- `labels`: Index labels corresponding to a specific cluster.
+- `clusters`: A nested list containing sublists of reactions within the same cluster.
 
-I also implemented a `plot_dendrogram` function, that plots a dendrogram given a dissimilarity matrix created from the `cluster_corr_reactions` function.
+I also implemented a `plot_dendrogram` function to plot a dendrogram from a dissimilarity matrix created by the `cluster_corr_reactions` function.
 
 Example of calling the `plot_dendrogram` function:
 
@@ -180,35 +180,34 @@ plot_dendrogram(dissimilarity_matrix,
                 linkage = "ward")
 ```
 
-Explaining the parameters:
+Explanation of the parameters and returned objects:
 
-- `dissimilarity_matrix` is a distance matrix created from the `cluster_corr_reactions` function.
-- `reactions` is a list with the reactions names.
-- `plot_labels` is a variable that defines, whether the reaction names will appear in the x-axis.
-- `t` defines a threshold that cuts the dendrogram at a specific height and colors the occuring clusters accordingly.
-- `linkage` defines the type of linkage. Available linkage types are: `single`, `average`, `complete`, `ward`.
+- `dissimilarity_matrix`: A distance matrix created by the `cluster_corr_reactions` function.
+- `reactions`: A list of reaction names.
+- `plot_labels`: Specifies whether reaction names will appear on the x-axis.
+- `t`: Defines a threshold to cut the dendrogram at a specific height, coloring the clusters accordingly.
+- `linkage`: Defines the type of linkage (options: `single`, `average`, `complete`, `ward`).
 
-All the dendrograms and graphs in this page are created from correlation matrices of the E. coli core model.
+All dendrograms and graphs in this document are created from correlation matrices of the E. coli core model.
 
-This is a dendrogram created from the `plot_dendrogram` function from a correlation matrix without pearson filtering and with `correction = True`:
+Dendrogram created from the `plot_dendrogram` function from a correlation matrix without pearson filtering and with `correction = True`:
 ![dendrogram_no_cutoffs.png](/img/dendrogram_no_cutoffs.png)
 
-This is a dendrogram from the same correlation matrix with `pearson_cutoff = 0.9999` and with `correction = True`:
+Dendrogram from the same correlation matrix with `pearson_cutoff = 0.9999` and with `correction = True`:
 ![dendrogram_pearson.png](/img/dendrogram_pearson.png)
 
-Far distinct clusters are observed. Graphs will reveal if these clusters interact with other clusters or reactions.
+We observe distinct clusters. Graphs will reveal if these clusters interact with other clusters or reactions.
 
 
 ## Graphs
 
-- Graphs creation can reveal networks of correlated reactions.
-- These networks might correspond to metabolic pathways.
+- Creating graphs can reveal networks of correlated reactions, potentially corresponding to metabolic pathways.
 - [These features derive from the 3rd pull request.](https://github.com/GeomScale/dingo/pull/105)
 
-I implemented a `graph_corr_matrix` function that takes as an input a correlation matrix and creates network graphs from it.
-Except from the initial graph this function splits the graph into subgraphs.
+I implemented a `graph_corr_matrix` function that takes a correlation matrix as input and creates network graphs. 
+This function also splits the initial graph into subgraphs.
 
-Example of calling the `graph_corr_matrix` function:
+Example of using the `graph_corr_matrix` function:
 
 ```python
 graphs, layouts = graph_corr_matrix(corr_matrix,
@@ -217,27 +216,27 @@ graphs, layouts = graph_corr_matrix(corr_matrix,
                                     clusters = clusters)
 ```
 
-Explaining the parameters and the returned objects:
+Explanation of the parameters and returned objects:
 
-- `corr_matrix` is a correlation matrix produced from the `correlated_reactions` function.
-- `reactions` is a list with the reactions names that will appear as nodes in the graphs.
-- `correction` is a boolean type variable that if set to True, it transforms the correlation matrix to the absolute correlation matrix.
-- `clusters` is a nested list, containing sublists with reactions that belong to the same cluster, created from the `cluster_corr_reactions` function.
-- `graphs` is a list containing created graph objects.
-- `layouts` is a list containing graphs' layouts. Each layout has the same index with its corresponding graph from `graphs` list.
+- `corr_matrix`: A correlation matrix produced by the `correlated_reactions` function.
+- `reactions`: A list of reaction names that will appear as nodes in the graphs.
+- `correction`: A boolean value; if `True`, it transforms the correlation matrix into the absolute correlation matrix.
+- `clusters`: A nested list containing sublists of reactions within the same cluster, created by the `cluster_corr_reactions` function.
+- `graphs`: A list containing graph objects.
+- `layouts`: A list containing graph layouts, each corresponding to a graph in the `graphs` list.
 
-I also implemented a `plot_graph` function that takes a graph object with its corresponding layout as inputs and plots the resulting graph.
+I also implemented a `plot_graph function` to plot graphs given a graph object and its corresponding layout.
 
-Example of calling the `plot_graph` function:
+Example of using the `plot_graph` function:
 
 ```python
 plot_graph(graph, layout)
 ```
 
-Explaining the parameters:
+Explanation of the parameters:
 
-- `graph` is a graph object returned from the `graph_corr_matrix` function.
-- `layout` is a layout that corresponds to the given graph object, also created from the `graph_corr_matrix` function.
+- `graph`: A graph object returned by the `graph_corr_matrix` function.
+- `layout`: A layout corresponding to the given graph object, also created by the `graph_corr_matrix` function.
 
 Example of calling the `plot_graph` function recursively for every subgraph returned:
 
@@ -248,30 +247,30 @@ for i in range(len(graphs)):
     plot_graph(graph, layout)
 ```
 
-This is a graph created from the `plot_graph` function from a correlation matrix without pearson filtering and with `correction = True`:
+Graph created from the `plot_graph` function from a correlation matrix without pearson filtering and with `correction = True`:
 ![graph_no_cutoffs.png](/img/graph_no_cutoffs.png)
 
-This is a graph created from a correlation matrix with `pearson_cutoff = 0.9999` and with `correction = True`:
+Graph created from a correlation matrix with `pearson_cutoff = 0.9999` and with `correction = True`:
 ![graph_pearson.png](/img/graph_pearson.png)
 
-This is one of the subgraphs created from a correlation matrix with `pearson_cutoff = 0.9999` and with `correction = True`:
+A subgraph created from a correlation matrix with `pearson_cutoff = 0.9999` and with `correction = True`:
 ![subgraph_pearson.png](/img/subgraph_pearson.png)
 
 This subgraph has 9 nodes that correspond to 9 reactions close to each other in the topology of the E. coli core model.
 These reactions are: `PGI, G6PDH2R, PGL, GND, RPE, RPI, TKT1, TALA, TKT2`.
-Their topology can be seen in the following figure obtained from `ESCHER`:
+Their topology can be seen in the figure below from `ESCHER`:
 ![escher_subgraph.png](/img/escher_subgraph.png)
 
 We can see that `PGI` seems to contribute to a different pathway. However it shares a common metabolite with `G6PDH2r`.
-If we apply a stricter pearson cutoff (equal to 0.99999), this reaction is removed from this subgraph and only the rest of the reactions remain.
-This is an important observation. Looser cutoffs lead to wider sets of connected reactions that form larger metabolic pathways.
+If we apply a stricter pearson cutoff (e.g., 0.99999), this reaction is removed from this subgraph, leaving only the remaining reactions.
+This is an important observation: looser cutoffs lead to wider sets of connected reactions, forming larger metabolic pathways.
 
 
 ## Conclusion
 
-- `dingo` is a python package for the analysis of metabolic networks. I expanded `dingo` by incorporating pre- and post- sampling features.
-- Flux sampling is an unbiased method that can advance research in metabolic models both at the strain and the community level.
-- From model reduction to pathways identification, the developed features incorporated to `dingo` show the increased statistical value of flux sampling.
+- `dingo` is a python package for the analysis of metabolic networks. I have expanded `dingo` by incorporating pre- and post- sampling features.
+- Flux sampling is an unbiased method that can advance research in metabolic models at both the strain and the community level.
+- From model reduction to pathways identification, the developed features incorporated into `dingo` demonstrate the increased statistical value of flux sampling.
 
 
 ## References
