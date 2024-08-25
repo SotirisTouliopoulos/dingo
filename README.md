@@ -19,7 +19,7 @@
 - Large metabolic models contain numerous reactions and metabolites. 
 - Sampling the flux space of such models requires significant computational time due to the high dimensionsionality.
 - Model preprocessing can mitigate this issue by removing certain reactions, thus reducing the dimensional space.
-- [These features derive from the 1st pull request.](https://github.com/GeomScale/dingo/pull/100)
+- [These features are derived from the first pull request.](https://github.com/GeomScale/dingo/pull/100)
 
 #### The concept of reduction in metabolic models is illustrated in the figure below created with BioRender <a href="#ref-1">[1]</a>:
 
@@ -35,7 +35,9 @@ Example of using the `reduce` function of the `PreProcess` class on the E. coli 
 
 ```python
 cobra_model = load_json_model("ext_data/e_coli_core.json")
+
 obj = PreProcess(cobra_model, tol = 1e-6, open_exchanges = False)
+
 removed_reactions, reduced_dingo_model = obj.reduce(extend = False)
 ```
 
@@ -59,11 +61,11 @@ It is recommended to use `extend` set to `False` for large models due to higher 
 
 ## Correlated Reactions
 
-- Reactions in biochemical pathways, can be positively correlated, negatively correlated or uncorrelated.
-- Positive correlation: if reaction A is active then reaction B is also active and vice versa.
+- Reactions in biochemical pathways can be positively correlated, negatively correlated, or uncorrelated.
+- Positive correlation: if reaction A is active, then reaction B is also active and vice versa.
 - Negative correlation: if reaction A is active, then reaction B is inactive and vice versa.
-- Zero correlation: The status of reaction A is independent of the status of reaction B, and vice versa.
-- [These features derive from the 2nd pull request.](https://github.com/GeomScale/dingo/pull/103)
+- Zero correlation: The status of reaction A is independent of the status of reaction B and vice versa.
+- [These features are derived from the second pull request.](https://github.com/GeomScale/dingo/pull/103)
 
 I implemented a `correlated_reactions` function that calculates reactions steady states using dingo's `PolytopeSampler` class and creates a correlation matrix based on the pearson correlation coefficient between pairwise reactions.
 This function also calculates a copula indicator to filter correlations greater than the pearson cutoff.
@@ -75,6 +77,7 @@ dingo_model = MetabolicNetwork.from_json("ext_data/e_coli_core.json")
 
 sampler = PolytopeSampler(dingo_model)
 steady_states = sampler.generate_steady_states()
+
 corr_matrix, indicator_dict = correlated_reactions(
                               steady_states,
                               pearson_cutoff = 0.99,
@@ -93,7 +96,7 @@ Explanation of the parameters and returned objects:
 - `cop_coeff`: Defines the width of the copula's diagonal.
 - `lower_triangle`: A boolean value that, when `True`, keeps only the lower triangular matrix, useful for visualization.
 - `corr_matrix`: The calculated correlation matrix with dimensions equal to the number of reactions of the given model.
-- `indicator_dict`: A dictionary containing filtered reaction combinations with the Pearson cutoff, alongside their copula indicator value and a classification for the correlation.
+- `indicator_dict`: A dictionary containing filtered reaction combinations with the pearson cutoff, alongside their copula indicator value and a classification for the correlation.
 
 I also implemented a `plot_corr_matrix` function to visualize the correlation matrix as a heatmap plot. 
 In reduced models, there is an option to plot only the remaining reactions' names if they are provided in a list.
@@ -101,7 +104,9 @@ In reduced models, there is an option to plot only the remaining reactions' name
 Example of using the `plot_corr_matrix` function:
 
 ```python
-plot_corr_matrix(corr_matrix, reactions, format="svg")
+plot_corr_matrix(corr_matrix,
+                 reactions,
+                 format = "svg")
 ```
 
 Explanation of the parameters:
@@ -141,7 +146,7 @@ We observe that the additional reaction removed with `extend` set to `True` is `
 
 - Clustering based on a dissimilarity matrix reveals groups of reactions with similar correlation values.
 - Reactions within the same cluster may contribute to the same pathways.
-- [These features derive from the 3rd pull request.](https://github.com/GeomScale/dingo/pull/105)
+- [These features are derived from the third pull request.](https://github.com/GeomScale/dingo/pull/105)
 
 I implemented a `cluster_corr_reactions` function that takes a correlation matrix as input and calculates a dissimilarity matrix. 
 The dissimilarity matrix can be calculated in two ways: by subtracting each value from 1 or by subtracting each absolute value from 1.
@@ -202,7 +207,7 @@ We observe distinct clusters. Graphs will reveal if these clusters interact with
 ## Graphs
 
 - Creating graphs can reveal networks of correlated reactions, potentially corresponding to metabolic pathways.
-- [These features derive from the 3rd pull request.](https://github.com/GeomScale/dingo/pull/105)
+- [These features are derived from the third pull request.](https://github.com/GeomScale/dingo/pull/105)
 
 I implemented a `graph_corr_matrix` function that takes a correlation matrix as input and creates network graphs. 
 This function also splits the initial graph into subgraphs.
@@ -225,7 +230,7 @@ Explanation of the parameters and returned objects:
 - `graphs`: A list containing graph objects.
 - `layouts`: A list containing graph layouts, each corresponding to a graph in the `graphs` list.
 
-I also implemented a `plot_graph function` to plot graphs given a graph object and its corresponding layout.
+I also implemented a `plot_graph` function to plot graphs given a graph object and its corresponding layout.
 
 Example of using the `plot_graph` function:
 
