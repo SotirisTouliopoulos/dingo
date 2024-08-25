@@ -1,27 +1,27 @@
 # Pre- and post-sampling features to leverage flux sampling at both the strain and the community level
 
-#### A contribution for the Google Summer of Code 2024 program
+#### A contribution to the Google Summer of Code 2024 program
 
 
 ## Overall
 
-#### A summary of the implemented methods, merged into the dingo library:
+#### This document summarizes the methods implemented and integrated into the dingo library:
 
-- preprocess for the reduction of metabolic models.
-- inference of pairwise correlated reactions.
-- visualization of a steady-states correlation matrix.
-- clustering of a steady-states correlation matrix.
-- construction of a weighted graph of the model's reactions with the correlation coefficients as weights.
+- Preprocess for the reduction of metabolic models.
+- Inference of pairwise correlated reactions.
+- Visualization of a steady-states correlation matrix.
+- Clustering of a steady-states correlation matrix.
+- Construction of a weighted graph of the model's reactions with the correlation coefficients as weights.
 
 
 ## Preprocess
 
-- Large metabolic models contain many reactions and metabolites. 
-- Sampling in the flux space of such models requires an increased computational time due to the higher number of dimensions.
-- Preprocessing of models can deal with this problem, as it removes certain reactions and thus decreases dimensional space.
+- Large metabolic models contain numerous reactions and metabolites. 
+- Sampling the flux space of such models requires significant computational time due to the high dimensionsionality.
+- Model preprocessing can mitigate this issue by removing certain reactions, thus reducing the dimensional space.
 - [These features derive from the 1st pull request.](https://github.com/GeomScale/dingo/pull/100)
 
-#### The concept of reduction in metabolic models is illustrated in the following figure created with BioRender <a href="#ref-1">[1]</a>:
+#### The concept of reduction in metabolic models is illustrated in the figure below created with BioRender <a href="#ref-1">[1]</a>:
 
 ![Network Reduction Concept](/img/reduction.png)
 
@@ -31,7 +31,7 @@ I implemented a `PreProcess` class that identifies and removes 3 types of reacti
 - Zero-flux reactions: cannot carry a flux while maintaining at least 90% of the maximum growth rate.
 - Metabolically less-efficient reactions: require a reduction in growth rate if used.
 
-Example of calling the `reduce` function of the `PreProcess` class to the E.coli core model:
+Example of using the `reduce` function of the `PreProcess` class on the E. coli core model:
 
 ```python
 cobra_model = load_json_model("ext_data/e_coli_core.json")
@@ -39,33 +39,36 @@ obj = PreProcess(cobra_model, tol=1e-6, open_exchanges=False)
 removed_reactions, final_dingo_model = obj.reduce(extend=False)
 ```
 
-Explaining the parameters and the returned objects:
+Explanation of the parameters and returned objects:
 
-- `open_exchanges` is a parameter to the `find_blocked_reactions` function of the cobra library. It controls whether or not to open all exchange reactions to very high flux ranges.
-- `removed_reactions` is a list that contains the names of the removed reactions. `final_dingo_model` is a reduced model with the bounds of removed reactions set to 0.
-- Users can decide if they want to remove an additional set of reactions, by setting the `extend` parameter to `True`.
-  These reactions are the ones that do not affect the value of the objective function, when removed.
+- `open_exchanges`: A parameter for the `find_blocked_reactions` function of the `COBRApy` library. It controls whether to open all exchange reactions to very high flux ranges.
+- `removed_reactions`: A list that contains the names of the removed reactions.
+- `final_dingo_model`: A reduced model with the bounds of removed reactions set to 0.
 
-Reduction with the `PreProcess` class has been tested with various models <a href="#ref-2">[2]</a>. Some of them are used in dingo's <a href="#ref-3">[3]</a> publication article too. 
-A figure with reduction results follows, which presents the number of remained reactions, after calling the `reduce` function with `extend` set both to `False` and `True`.
-Reduction with `extend` set to `True` is based on sampling, so a slight change in the number of remained reactions may appear from time to time. 
-It is recommended to use `extend` set to `False` in large models, due to the higher computational time.
+Users can choose to remove an additional set of reactions, by setting the `extend` parameter to `True`.
+These reactions do not affect the value of the objective function, when removed.
+
+Reduction with the `PreProcess` class has been tested with various models <a href="#ref-2">[2]</a>, some of which are included in dingo's <a href="#ref-3">[3]</a> publication article too. 
+A figure below shows the number of remained reactions, after calling the `reduce` function with `extend` set both to `False` and `True`.
+Note that when `extend` is set to `True`, the reduction is based on sampling, so slight changes in the number of remaining reactions may occur. 
+It is recommended to use `extend` set to `False` for large models due to higher computational time.
 
 ![Reduction_Results_Plot](/img/reduction_results_plot.png)
 ![Reduction_Results_Plot2](/img/reduction_results_plot2.png)
 
 
-## Correlated reactions
+## Correlated Reactions
 
-- Reactions in biochemical pathways, can be positive, negative or non correlated.
-- Positive correlation between a set of reactions A and B means that if reaction A is active then reaction B is also active and vice versa.
-- Negative correlation means that if reaction A is active, then reaction B is deactive and vice versa.
-- Zero correlation means that reaction A can have any status, regardless of the reaction's B status and vice versa.
+- Reactions in biochemical pathways, can be positively correlated, negatively correlated or uncorrelated.
+- Positive correlation: if reaction A is active then reaction B is also active and vice versa.
+- Negative correlation: if reaction A is active, then reaction B is inactive and vice versa.
+- Zero correlation: The status of reaction A is independent of the status of reaction B, and vice versa.
 - [These features derive from the 2nd pull request.](https://github.com/GeomScale/dingo/pull/103)
 
-I implemented a `correlated_reactions` function that calculates reactions steady states using dingo's `PolytopeSampler` class and then creates a correlation matrix based on pearson correlation coefficient between pairwise set of reactions. This function also calculates a copula indicator for filtering correlations greater than the pearson cutoff.
+I implemented a `correlated_reactions` function that calculates reactions steady states using dingo's `PolytopeSampler` class and creates a correlation matrix based on the pearson correlation coefficient between pairwise reactions.
+This function also calculates a copula indicator to filter correlations greater than the pearson cutoff.
 
-Example of calling the `correlated_reactions` function to the E.coli core model:
+Example of using the `correlated_reactions` function on the E. coli core model:
 
 ```python
 dingo_model = MetabolicNetwork.from_json('ext_data/e_coli_core.json')
@@ -75,61 +78,62 @@ steady_states = sampler.generate_steady_states()
 corr_matrix, indicator_dict = correlated_reactions(
                               steady_states,
                               pearson_cutoff = 0.99,
-                              indicator_cutoff=2,
+                              indicator_cutoff = 2,
                               cells = 10,
                               cop_coeff = 0.3,
                               lower_triangle = False)
 ```
 
-Explaining the parameters and the returned objects:
+Explanation of the parameters and returned objects:
 
-- `steady_states` are the reactions steady states returned from dingo's `generate_steady_states` function.
-- `pearson_cutoff` is a cutoff to filter and replace all lower correlation values with 0.
-- `indicator_cutoff` is a cutoff that corresponds to the copula's indicator. It filters correlations greater than the pearson cutoff.
-- `cells` is a variable that defines the number of cells in the computed copulas.
-- `cop_coeff` is a variable that defines the width of the copula's diagonal.
-- `lower_triangle` is a `boolean` value that when `True` keeps only the lower triangular matrix. This can be useful for visualization purposes.
-- `corr_matrix` is the calculated correlation matrix with dimensions equal to the number of reactions of the given model.
-- `indicator_dict` is a dictionary containing filtered reactions combinations with the pearson's cutoff, alongside their copula's indicator value and a classification for the correlation.
+- `steady_states`: Reactions steady states returned from dingo's `generate_steady_states` function.
+- `pearson_cutoff`: A cutoff to filter and replace all lower correlation values with 0.
+- `indicator_cutoff`: A cutoff that corresponds to the copula's indicator, filtering correlations greater than the pearson cutoff.
+- `cells`: Defines the number of cells in the computed copulas.
+- `cop_coeff`: Defines the width of the copula's diagonal.
+- `lower_triangle`: A boolean value that, when `True`, keeps only the lower triangular matrix, useful for visualization.
+- `corr_matrix`: The calculated correlation matrix with dimensions equal to the number of reactions of the given model.
+- `indicator_dict`: A dictionary containing filtered reaction combinations with the Pearson cutoff, alongside their copula indicator value and a classification for the correlation.
 
-I also implemented a `plot_corr_matrix` function that visualizes the correlation matrix given as an input with a heatmap plot. In reduced models, there is an option to plot only the remained reactions names, if they are provided in a list.
+I also implemented a `plot_corr_matrix` function to visualize the correlation matrix as a heatmap plot. 
+In reduced models, there is an option to plot only the remaining reactions' names if they are provided in a list.
 
-Example of calling the `plot_corr_matrix` function:
+Example of using the `plot_corr_matrix` function:
 
 ```python
 plot_corr_matrix(corr_matrix, reactions, format="svg")
 ```
 
-Explaining the parameters:
+Explanation of the parameters:
 
-- `corr_matrix` is a correlation matrix produced from the `correlated_reactions` function.
-- `reactions` is a list with the reactions names that will appear as labels in the axes of the heatmap plot.
-- `format` is a variable that defines the desired image saving format.
+- `corr_matrix`: A correlation matrix produced from the `correlated_reactions` function.
+- `reactions`: A list of reaction names that will appear as labels on the heatmap axes.
+- `format`: Defines the desired image saving format.
 
-First we will examine the capabilities of the `correlated_reactions` function from the produced heatmap plots in the E. coli core model.
+We will examine the capabilities of the `correlated_reactions` function using heatmap plots from the E. coli core model.
 
-A heatmap from a symmetrical correlation matrix without pearson and indicator filtering:
+Heatmap from a symmetrical correlation matrix without pearson and indicator filtering:
 ![corr_matrix_no_cutoffs](/img/corr_matrix_no_cutoffs.png)
 
-A heatmap from a symmetrical correlation matrix with `pearson_cutoff = 0.7` and without indicator filtering:
+Heatmap from a symmetrical correlation matrix with `pearson_cutoff = 0.7` and without indicator filtering:
 ![corr_matrix_pearson](/img/corr_matrix_pearson.png)
 
-A heatmap from a symmetrical correlation matrix with `pearson_cutoff = 0.7` and with `indicator_cutoff = 100`:
+Heatmap from a symmetrical correlation matrix with `pearson_cutoff = 0.7` and with `indicator_cutoff = 100`:
 ![corr_matrix_pearson_indicator](/img/corr_matrix_pearson_indicator.png)
 
-A heatmap from a triangular correlation matrix with `pearson_cutoff = 0.7` and with `indicator_filtering = 100`:
+Heatmap from a triangular correlation matrix with `pearson_cutoff = 0.7` and with `indicator_filtering = 100`:
 ![corr_matrix_pearson_indicator_triangle](/img/corr_matrix_pearson_indicator_triangle.png)
 
 Now we will examine heatmap plots from reduced E. coli core models.
 
-A heatmap from a symmetrical correlation matrix with `pearson_cutoff = 0.7` and with `indicator_filtering = 100`, from a reduced E. coli core model with `extend` set to `False`:
+Heatmap from a symmetrical correlation matrix with `pearson_cutoff = 0.7` and with `indicator_filtering = 100`, from a reduced E. coli core model with `extend` set to `False`:
 ![corr_matrix_extend_false](/img/corr_matrix_extend_false.png)
 
-A heatmap from a symmetrical correlation matrix with `pearson_cutoff = 0.7` and with `indicator_filtering = 100`, from a reduced E. coli core model with `extend` set to `True`:
+Heatmap from a symmetrical correlation matrix with `pearson_cutoff = 0.7` and with `indicator_filtering = 100`, from a reduced E. coli core model with `extend` set to `True`:
 ![corr_matrix_extend_true.png](/img/corr_matrix_extend_true.png)
 
-We can see that the additional reaction removed with `extend` set to `True` is `FRD7` which is the least correlated one across the matrix.
-`FRD7` is a fumarate reductase, which in the E. coli core model appears in a loop with `SUCDi`, as seen in the following figure obtained from `ESCHER` <a href="#ref-4">[4]</a>:
+We observe that the additional reaction removed with `extend` set to `True` is `FRD7`, the least correlated across the matrix.
+`FRD7` is a fumarate reductase, appearing in a loop with `SUCDi` in the E. coli core model, as seen in the following figure obtained from `ESCHER` <a href="#ref-4">[4]</a>:
 ![escher_frd7.png](/img/escher_frd7.png)
 
 
@@ -147,8 +151,8 @@ Example of calling the `cluster_corr_reactions` function:
 ```python
 dissimilarity_matrix, labels, clusters = cluster_corr_reactions(
                                           corr_matrix,
-                                          reactions=reactions,
-                                          linkage="ward",
+                                          reactions = reactions,
+                                          linkage = "ward",
                                           t = 10.0,
                                           correction = True)
 ```
@@ -169,7 +173,11 @@ I also implemented a `plot_dendrogram` function, that plots a dendrogram given a
 Example of calling the `plot_dendrogram` function:
 
 ```python
-plot_dendrogram(dissimilarity_matrix, reactions , plot_labels=True, t=10.0, linkage="ward")
+plot_dendrogram(dissimilarity_matrix,
+                reactions,
+                plot_labels = True,
+                t = 10.0,
+                linkage = "ward")
 ```
 
 Explaining the parameters:
@@ -203,7 +211,10 @@ Except from the initial graph this function splits the graph into subgraphs.
 Example of calling the `graph_corr_matrix` function:
 
 ```python
-graphs, layouts = graph_corr_matrix(corr_matrix, reactions, correction=True, clusters=clusters)
+graphs, layouts = graph_corr_matrix(corr_matrix,
+                                    reactions,
+                                    correction = True,
+                                    clusters = clusters)
 ```
 
 Explaining the parameters and the returned objects:
