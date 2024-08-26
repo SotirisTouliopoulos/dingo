@@ -7,7 +7,7 @@
 
 - [GeomScale](https://geomscale.github.io/) is a research and development project that delivers open source code for state-of-the-art algorithms at the intersection of data science, optimization, geometric, and statistical computing.
 - The current focus of GeomScale is scalable algorithms for sampling from high-dimensional distributions, integration, convex optimization, and their applications.
-- [dingo](https://github.com/GeomScale/dingo) is part of the GeomScale project. It is a python package that analyzes metabolic networks. It relies on high dimensional sampling with Markov Chain Monte Carlo (MCMC) methods and fast optimization methods to analyze the possible states of a metabolic network.
+- [dingo](https://github.com/GeomScale/dingo) is a python package that analyzes metabolic networks. It relies on high dimensional sampling with Markov Chain Monte Carlo (MCMC) methods and fast optimization methods to analyze the possible states of a metabolic network. `dingo` is part of the `GeomScale` project.
 
 #### This document summarizes the methods implemented and integrated into the [dingo](https://github.com/GeomScale/dingo) package:
 
@@ -159,11 +159,11 @@ Example of using the `cluster_corr_reactions` function:
 
 ```python
 dissimilarity_matrix, labels, clusters = cluster_corr_reactions(
-                                          corr_matrix,
-                                          reactions = reactions,
-                                          linkage = "ward",
-                                          t = 10.0,
-                                          correction = True)
+                                         corr_matrix,
+                                         reactions = reactions,
+                                         linkage = "ward",
+                                         t = 10.0,
+                                         correction = True)
 ```
 
 Explanation of the parameters and returned objects:
@@ -202,7 +202,7 @@ All dendrograms and graphs in this document are created from correlation matrice
 Dendrogram created from the `plot_dendrogram` function from a correlation matrix without pearson filtering and with `correction = True`:
 ![dendrogram_no_cutoffs.png](/img/dendrogram_no_cutoffs.png)
 
-Dendrogram from the same correlation matrix with `pearson_cutoff = 0.9999` and with `correction = True`:
+Dendrogram from a correlation matrix with `pearson_cutoff = 0.9999` and with `correction = True`:
 ![dendrogram_pearson.png](/img/dendrogram_pearson.png)
 
 We observe distinct clusters. Graphs will reveal if these clusters interact with other clusters or reactions.
