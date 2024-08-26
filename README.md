@@ -3,9 +3,13 @@
 #### A contribution to the Google Summer of Code 2024 program
 
 
-## Overall
+## Overview
 
-#### This document summarizes the methods implemented and integrated into the dingo library:
+- [GeomScale](https://geomscale.github.io/) is a research and development project that delivers open source code for state-of-the-art algorithms at the intersection of data science, optimization, geometric, and statistical computing.
+- The current focus of GeomScale is scalable algorithms for sampling from high-dimensional distributions, integration, convex optimization, and their applications.
+- [dingo](https://github.com/GeomScale/dingo) is a python package that analyzes metabolic networks. It relies on high dimensional sampling with Markov Chain Monte Carlo (MCMC) methods and fast optimization methods to analyze the possible states of a metabolic network.
+
+#### This document summarizes the methods implemented and integrated into the [dingo](https://github.com/GeomScale/dingo) library:
 
 - Preprocess for the reduction of metabolic models.
 - Inference of pairwise correlated reactions.
