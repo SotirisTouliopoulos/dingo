@@ -279,7 +279,7 @@ This is an important observation: looser cutoffs lead to wider sets of connected
 
 - `dingo` is a python package for the analysis of metabolic networks. I have expanded `dingo` by incorporating pre- and post- sampling features.
 - Flux sampling is an unbiased method that can advance research in metabolic models at both the strain and the community level.
-- From model reduction to pathways identification, the developed features incorporated into `dingo` demonstrate the increased statistical value of flux sampling.
+- From model reduction to pathways prediction, the developed features incorporated into `dingo` demonstrate the increased statistical value of flux sampling.
 
 
 ## References
